@@ -1,0 +1,130 @@
+<h4><i class="bi bi-plus-circle"></i> Add Course</h4>
+
+<form method="POST" action="/admin/add-course">
+
+  <input name="title" class="form-control mb-3" placeholder="Title" required>
+
+  <textarea name="description" class="form-control mb-3" placeholder="Description"></textarea>
+<!-- COURSE TYPE -->
+
+<div class="mb-3">
+
+  <label class="fw-semibold mb-2">
+    Course Access
+  </label>
+
+  <select
+    name="is_premium"
+    id="courseType"
+    class="form-select"
+    onchange="toggleXpField()"
+  >
+
+    <option value="false">
+      Free Course
+    </option>
+
+    <option value="true">
+      XP Unlock Course
+    </option>
+
+  </select>
+
+</div>
+
+<!-- XP REQUIRED -->
+
+<div
+  id="xpField"
+  style="display:none;"
+  class="mb-3"
+>
+
+  <label class="fw-semibold mb-2">
+    XP Required
+  </label>
+
+  <input
+    type="number"
+    name="xp_required"
+    class="form-control"
+    placeholder="Enter XP Required"
+    min="1"
+  >
+
+</div>
+<input
+  id="playlistInput"
+  name="playlist"
+  class="form-control mb-3"
+  placeholder="Paste YouTube Playlist URL"
+  oninput="cleanPlaylistUrl()"
+>
+
+  <button class="btn btn-success">
+    <i class="bi bi-check-circle"></i> Add
+  </button>
+
+</form>
+<hr>
+<h5>🧠 Add First Quiz (Optional)</h5>
+
+<div class="mb-2">
+  <input name="quiz_question" class="form-control" placeholder="Question">
+</div>
+
+<div class="row">
+  <div class="col-md-3">
+    <input name="qa" class="form-control" placeholder="A">
+  </div>
+  <div class="col-md-3">
+    <input name="qb" class="form-control" placeholder="B">
+  </div>
+  <div class="col-md-3">
+    <input name="qc" class="form-control" placeholder="C">
+  </div>
+  <div class="col-md-3">
+    <input name="qd" class="form-control" placeholder="D">
+  </div>
+</div>
+
+<div class="mt-2">
+  <input name="correct" class="form-control" placeholder="Correct Answer">
+</div>
+
+<script>
+
+function toggleXpField(){
+
+  const type =
+    document.getElementById("courseType").value;
+
+  document.getElementById("xpField").style.display =
+    type === "true"
+      ? "block"
+      : "none";
+}
+
+</script>
+<script>
+
+function cleanPlaylistUrl(){
+
+  const input =
+    document.getElementById("playlistInput");
+
+  let url = input.value.trim();
+
+  // EXTRACT PLAYLIST ID
+  if(url.includes("list=")){
+
+    const playlistId =
+      url.split("list=")[1].split("&")[0];
+
+    input.value = playlistId;
+
+  }
+
+}
+
+</script>

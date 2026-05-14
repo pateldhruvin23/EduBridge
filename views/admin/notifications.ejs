@@ -1,0 +1,33 @@
+<h4 class="mb-4">🔔 Send Notification</h4>
+
+<form action="/admin/send-notification" method="POST" class="mb-4">
+
+  <div class="mb-2">
+    <select name="type" class="form-control">
+      <option value="all">All Users</option>
+      <option value="course">Course Students</option>
+    </select>
+  </div>
+
+  <div class="mb-2">
+    <input type="number" name="courseId" class="form-control" placeholder="Course ID (if needed)">
+  </div>
+
+  <div class="mb-2">
+    <textarea name="message" class="form-control" placeholder="Enter message" required></textarea>
+  </div>
+
+  <button class="btn btn-success">Send</button>
+</form>
+
+<hr>
+
+<h5>📩 Sent Notifications</h5>
+
+<ul class="list-group">
+  <% notifications.forEach(n => { %>
+    <li class="list-group-item bg-dark text-white">
+      <%= n.message %>
+    </li>
+  <% }) %>
+</ul>

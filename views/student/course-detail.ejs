@@ -1,0 +1,1427 @@
+<style>
+.video-card { background:#1e293b; border-radius:12px; }
+.video-item {
+  background:#1e293b;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.2s;
+  color:white;
+}
+.video-item:hover { background:#334155; }
+.video-item.active { background:#2563eb; }
+.video-thumb { width:80px; border-radius:6px; }
+.notes-card { background:#1e293b; border-radius:10px; }
+
+.toast-box {
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  transition: 0.3s;
+  z-index: 9999;
+}
+.toast-box.show { right: 20px; }
+.toast-box.success { background: #22c55e; }
+.toast-box.error { background: #ef4444; }
+.toast-box.warning { background: #f59e0b; }
+
+.youtube-frame{
+  width:100%;
+  height:100%;
+  border:none;
+  border-radius:12px;
+}
+
+.playlist-item:hover{
+  background:#334155 !important;
+  transform:translateY(-2px);
+}
+
+.playlist-active{
+  border:1px solid #2563eb !important;
+  background:#1d4ed8 !important;
+  box-shadow:0 10px 25px rgba(37,99,235,0.25);
+}
+
+.playlist-locked{
+  opacity:0.5;
+  cursor:not-allowed !important;
+}
+
+.playlist-card::-webkit-scrollbar{
+  width:6px;
+}
+
+.playlist-card::-webkit-scrollbar-thumb{
+  background:#334155;
+  border-radius:20px;
+}
+
+/* =========================
+   QUIZ UI
+========================= */
+
+.quiz-card{
+  background:#0f172a;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.06);
+}
+
+.quiz-header{
+  padding:18px 22px;
+  background:linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.quiz-title{
+  font-size:18px;
+  font-weight:700;
+  color:white;
+}
+
+.quiz-timer{
+  font-weight:600;
+  color:white;
+}
+
+.quiz-body{
+  padding:24px;
+}
+
+.quiz-question{
+  color:white;
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:22px;
+}
+
+.quiz-option{
+  width:100%;
+  border:none;
+  border-radius:14px;
+  padding:14px 18px;
+  margin-bottom:12px;
+  background:#1e293b;
+  color:white;
+  text-align:left;
+  transition:0.25s;
+  font-weight:500;
+}
+
+.quiz-option:hover{
+  background:#334155;
+  transform:translateX(3px);
+}
+
+.quiz-option.correct{
+  background:#16a34a !important;
+}
+
+.quiz-option.wrong{
+  background:#dc2626 !important;
+}
+
+.quiz-status{
+  margin-top:18px;
+  font-weight:600;
+  color:white;
+}
+
+.quiz-progress{
+  height:8px;
+  background:#1e293b;
+  overflow:hidden;
+}
+
+.quiz-progress-bar{
+  height:100%;
+  width:100%;
+  background:#22c55e;
+  transition:1s linear;
+}
+
+.code-editor{
+  background:#020617;
+  color:#38bdf8;
+  border:none;
+  border-radius:16px;
+  padding:18px;
+  font-family:monospace;
+  min-height:220px;
+  resize:none;
+}
+
+.retry-box{
+  background:#7c2d12;
+  color:white;
+  padding:12px;
+  border-radius:12px;
+  margin-top:15px;
+}
+
+
+</style>
+
+<h4 class="fw-bold mb-3">🎬 <%= course.title %></h4>
+
+<div class="row g-4 align-items-start">
+
+<!-- VIDEO -->
+<div class="col-lg-8">
+
+  <div class="video-card p-2 mb-3">
+    <div class="ratio ratio-16x9">
+<iframe
+  id="player"
+  class="youtube-frame"
+  src="https://www.youtube.com/embed/<%= startVideo.youtube_video_id %>?enablejsapi=1&playsinline=0&rel=0&modestbranding=1&controls=1&fs=1&iv_load_policy=3&cc_load_policy=0"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen>
+</iframe>
+    </div>
+  </div>
+
+  <button onclick="markComplete()" class="btn btn-success w-100 mb-3">
+    ✔ Mark Completed
+  </button>
+
+  <!-- QUIZ -->
+<div id="quizSection" style="display:none;" class="mb-3">
+
+  <div class="quiz-card">
+
+    <div class="quiz-header">
+
+      <div class="quiz-title">
+        🧠 Lesson Quiz
+      </div>
+
+      <div class="quiz-timer" id="quizTimer">
+        60s
+      </div>
+
+    </div>
+
+    <div class="quiz-progress">
+      <div class="quiz-progress-bar" id="quizProgressBar"></div>
+    </div>
+
+    <div class="quiz-body">
+
+      <div id="quizContainer"></div>
+
+      <div id="quizStatus" class="quiz-status"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- COMMENTS -->
+<div class="notes-card p-4 mt-3">
+
+  <!-- HEADER -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h5 class="text-white mb-0 fw-bold">
+      💬 Discussion & Doubts
+    </h5>
+
+    <span class="badge bg-primary rounded-pill">
+      <%= comments.length %> Messages
+    </span>
+
+  </div>
+
+  <!-- COMMENT FORM -->
+  <form
+    method="POST"
+    action="/comment"
+    class="mb-4"
+  >
+
+    <input
+      type="hidden"
+      name="courseId"
+      value="<%= course.id %>"
+    >
+
+    <div class="d-flex gap-2">
+
+      <!-- USER AVATAR -->
+      <div
+        class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+        style="width:45px;height:45px;min-width:45px;"
+      >
+        <%= user.name.charAt(0).toUpperCase() %>
+      </div>
+
+      <div class="flex-grow-1">
+
+        <textarea
+          class="form-control border-0 shadow-none"
+          name="message"
+          rows="2"
+          placeholder="Ask your doubt or discuss lesson..."
+          style="
+            border-radius:14px;
+            resize:none;
+            background:#f8fafc;
+          "
+          required
+        ></textarea>
+
+        <div class="text-end mt-2">
+
+          <button
+            class="btn btn-primary px-4 rounded-pill"
+          >
+            <i class="bi bi-send-fill"></i>
+            Send
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </form>
+
+  <!-- COMMENTS LIST -->
+  <div class="comment-list">
+
+    <% if(comments.length === 0){ %>
+
+      <div class="text-center text-light opacity-75 py-4">
+
+        <i class="bi bi-chat-square-text fs-1"></i>
+
+        <p class="mt-2 mb-0">
+          No discussions yet
+        </p>
+
+      </div>
+
+    <% } %>
+
+    <% comments.forEach(c => { %>
+
+      <div
+        class="comment-item mb-3 p-3"
+        style="
+          background:#0f172a;
+          border-radius:18px;
+          border:1px solid rgba(255,255,255,0.06);
+        "
+      >
+
+        <!-- TOP -->
+        <div class="d-flex justify-content-between align-items-start">
+
+          <div class="d-flex gap-3">
+
+            <!-- AVATAR -->
+            <div
+              class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+              style="width:45px;height:45px;min-width:45px;"
+            >
+              <%= (c.user_name || "U").charAt(0).toUpperCase() %>
+            </div>
+
+            <!-- CONTENT -->
+            <div>
+
+              <div class="text-white fw-semibold">
+
+                <%= c.user_name || "Student" %>
+
+              </div>
+
+              <div
+                class="small text-light opacity-75 mb-2"
+              >
+                <i class="bi bi-clock"></i>
+
+                <%= new Date(c.created_at).toLocaleString() %>
+              </div>
+
+              <div
+                class="text-white"
+                style="
+                  line-height:1.6;
+                  word-break:break-word;
+                "
+              >
+                <%= c.message %>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- REPORT -->
+          <button
+            class="btn btn-sm btn-outline-danger rounded-circle"
+            onclick="reportComment(<%= c.id %>)"
+            style="width:38px;height:38px;"
+          >
+            <i class="bi bi-flag"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+    <% }) %>
+
+  </div>
+
+</div>
+  </div>
+
+
+
+<!-- PLAYLIST -->
+<div class="col-lg-4">
+
+  <!-- PLAYLIST CARD -->
+  <div
+    class="playlist-card mb-4"
+    style="
+      background:#0f172a;
+      border-radius:24px;
+      padding:20px;
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    "
+  >
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+      <h5 class="text-white fw-bold mb-0">
+        📺 Course Playlist
+      </h5>
+
+      <span class="badge bg-primary rounded-pill px-3 py-2">
+        <%= videos.length %> Videos
+      </span>
+
+    </div>
+
+    <!-- VIDEOS -->
+    <div
+      style="
+        max-height:600px;
+        overflow-y:auto;
+        padding-right:4px;
+      "
+    >
+
+      <% videos.forEach((v, index) => { %>
+
+      <%
+        const prevVideo = videos[index - 1];
+        const prevHasQuiz = prevVideo
+  ? quizzes.some(q => q.video_id === prevVideo.id)
+  : false;
+
+const prevPassed = prevVideo
+  ? (!prevHasQuiz || passedMap[prevVideo.id])
+  : true;
+        const isUnlocked = index === 0 || prevPassed;
+
+        const isCompleted = completedIds.includes(v.id);
+        const isActive = v.id === startVideo.id;
+      %>
+
+      <div
+        id="video-<%= v.id %>"
+
+        class="playlist-item mb-3
+        <%= isActive ? 'playlist-active' : '' %>
+        <%= !isUnlocked ? 'playlist-locked' : '' %>"
+
+        <% if (isUnlocked) { %>
+          onclick="playVideo('<%= v.youtube_video_id %>', <%= v.id %>)"
+        <% } %>
+
+        style="
+          background:#1e293b;
+          border-radius:18px;
+          padding:12px;
+          cursor:pointer;
+          transition:0.25s;
+          border:1px solid transparent;
+        "
+      >
+
+        <div class="d-flex gap-3">
+
+          <!-- THUMB -->
+          <div style="position:relative;">
+
+            <img
+              src="<%= v.thumbnail || 'https://via.placeholder.com/120' %>"
+
+              style="
+                width:110px;
+                height:70px;
+                object-fit:cover;
+                border-radius:12px;
+              "
+            >
+
+            <!-- STATUS -->
+            <div
+              style="
+                position:absolute;
+                top:6px;
+                right:6px;
+              "
+            >
+
+              <% if (!isUnlocked) { %>
+
+                <span class="badge bg-dark">
+                  🔒
+                </span>
+
+              <% } else if (isCompleted) { %>
+
+                <span class="badge bg-success">
+                  ✔
+                </span>
+
+              <% } else { %>
+
+                <span class="badge bg-primary">
+                  ▶
+                </span>
+
+              <% } %>
+
+            </div>
+
+          </div>
+
+          <!-- CONTENT -->
+          <div class="flex-grow-1">
+
+            <div
+              class="text-white fw-semibold"
+              style="
+                line-height:1.5;
+                font-size:15px;
+              "
+            >
+              <%= v.title %>
+            </div>
+
+            <div
+              class="small mt-2"
+              style="color:#94a3b8;"
+            >
+
+              Lesson <%= index + 1 %>
+
+              <% if (isCompleted) { %>
+
+                • Completed
+
+              <% } else if (!isUnlocked) { %>
+
+                • Locked
+
+              <% } else { %>
+
+                • Ready to watch
+
+              <% } %>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <% }) %>
+
+    </div>
+
+  </div>
+
+  <!-- NOTES CARD -->
+  <div
+    class="notes-card p-4 text-white"
+    style="
+      border-radius:24px;
+      background:#0f172a;
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    "
+  >
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+      <h5 class="fw-bold mb-0">
+        📁 Study Notes
+      </h5>
+
+      <span class="badge bg-info rounded-pill px-3 py-2">
+        <%= notes.length %> Files
+      </span>
+
+    </div>
+
+    <!-- EMPTY -->
+    <% if (!notes || notes.length === 0) { %>
+
+      <div class="text-center py-4 text-light opacity-75">
+
+        <i class="bi bi-file-earmark-text fs-1"></i>
+
+        <p class="mt-2 mb-0">
+          No notes uploaded yet
+        </p>
+
+      </div>
+
+    <% } %>
+
+    <!-- FILES -->
+    <% notes.forEach(n => { %>
+
+      <a
+        href="/uploads/<%= n.file_url %>"
+        target="_blank"
+
+        class="d-flex align-items-center justify-content-between
+        text-decoration-none text-white mb-3"
+
+        style="
+          background:#1e293b;
+          padding:14px;
+          border-radius:16px;
+          transition:0.25s;
+          border:1px solid transparent;
+        "
+
+        onmouseover="
+          this.style.background='#334155';
+          this.style.transform='translateY(-2px)';
+        "
+
+        onmouseout="
+          this.style.background='#1e293b';
+          this.style.transform='translateY(0px)';
+        "
+      >
+
+        <div class="d-flex align-items-center gap-3">
+
+          <div
+            style="
+              width:45px;
+              height:45px;
+              border-radius:12px;
+              background:#2563eb;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              font-size:18px;
+            "
+          >
+            📄
+          </div>
+
+          <div>
+
+            <div class="fw-semibold">
+              <%= n.title %>
+            </div>
+
+            <small style="color:#94a3b8;">
+              Study Material
+            </small>
+
+          </div>
+
+        </div>
+
+        <i class="bi bi-download"></i>
+
+      </a>
+
+    <% }) %>
+
+  </div>
+
+</div>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+  let currentQuizIndex = 0;
+let currentQuizQuestions = [];
+let quizScore = 0;
+let videos = <%- JSON.stringify(videos) %>;
+let quizzes = <%- JSON.stringify(quizzes) %>;
+let passedMap = <%- JSON.stringify(passedMap) %>;
+
+let currentVideoId = <%= startVideo.id %>;
+let currentVideoIndex = videos.findIndex(v => v.id === currentVideoId);
+
+let player;
+let timerInterval;
+let retryTimeout = false;
+
+// INIT PLAYER
+function onYouTubeIframeAPIReady() {
+player = new YT.Player('player', {
+  playerVars: {
+    rel: 0,
+    modestbranding: 1,
+    controls: 1,
+    fs: 1,
+    iv_load_policy: 3,
+    cc_load_policy: 0
+  },
+  events: {
+    'onStateChange': onPlayerStateChange
+  }
+});
+}
+
+// AUTO NEXT
+function onPlayerStateChange(event) {
+  if (event.data === YT.PlayerState.ENDED) {
+    playNextVideo();
+  }
+}
+
+// NEXT VIDEO
+function playNextVideo() {
+  let nextIndex = currentVideoIndex + 1;
+
+  if (nextIndex < videos.length) {
+
+    const prevVideo = videos[currentVideoIndex];
+
+// CHECK QUIZ EXISTS
+const hasQuiz = quizzes.some(
+  q => q.video_id === prevVideo.id
+);
+
+// ONLY BLOCK IF QUIZ EXISTS
+if(hasQuiz && !passedMap[prevVideo.id]){
+
+  showToast(
+    "Complete quiz first",
+    "warning"
+  );
+
+  return;
+}
+
+    const nextVideo = videos[nextIndex];
+
+    currentVideoIndex = nextIndex;
+    currentVideoId = nextVideo.id;
+
+    player.loadVideoById(nextVideo.youtube_video_id);
+
+    updateActive(nextVideo.id);
+    loadQuiz(nextVideo.id);
+  }
+}
+
+// PLAY VIDEO
+function playVideo(videoId, dbId) {
+  player.loadVideoById(videoId);
+
+  currentVideoId = dbId;
+  currentVideoIndex = videos.findIndex(v => v.id === dbId);
+
+  updateActive(dbId);
+  loadQuiz(dbId);
+}
+
+// ACTIVE UI
+function updateActive(id){
+
+  // REMOVE OLD ACTIVE
+  document
+    .querySelectorAll(".playlist-item")
+    .forEach(el => {
+
+      el.classList.remove(
+        "playlist-active"
+      );
+
+    });
+
+  // ADD NEW ACTIVE
+  const activeVideo =
+    document.getElementById("video-" + id);
+
+  if(activeVideo){
+
+    activeVideo.classList.add(
+      "playlist-active"
+    );
+
+  }
+
+}
+
+
+// LOAD QUIZ
+async function loadQuiz(videoId){
+
+  clearInterval(timerInterval);
+
+  const container =
+    document.getElementById("quizContainer");
+
+  const section =
+    document.getElementById("quizSection");
+
+  const status =
+    document.getElementById("quizStatus");
+
+  const timerEl =
+    document.getElementById("quizTimer");
+
+  const progressBar =
+    document.getElementById("quizProgressBar");
+
+  container.innerHTML = "";
+  status.innerHTML = "";
+
+  currentQuizQuestions =
+    quizzes.filter(q => q.video_id === videoId);
+
+  currentQuizIndex = 0;
+  quizScore = 0;
+
+  if(currentQuizQuestions.length === 0){
+
+    section.style.display = "none";
+
+    return;
+  }
+
+  section.style.display = "block";
+
+  renderQuestion();
+
+  // TIMER
+  let totalTime = 60 * currentQuizQuestions.length;
+  let time = totalTime;
+
+  timerEl.innerText = `${time}s`;
+
+  timerInterval = setInterval(() => {
+
+    time--;
+
+    timerEl.innerText = `${time}s`;
+
+    progressBar.style.width =
+      (time / totalTime) * 100 + "%";
+
+    if(time <= 0){
+
+      clearInterval(timerInterval);
+
+      finishQuiz(videoId);
+
+    }
+
+  },1000);
+}
+function renderQuestion(){
+
+  const container =
+    document.getElementById("quizContainer");
+
+  const q =
+    currentQuizQuestions[currentQuizIndex];
+
+  if(!q){
+    return;
+  }
+
+  // =========================
+  // MCQ TYPE
+  // =========================
+
+  if(!q.type || q.type === "mcq"){
+
+    container.innerHTML = `
+
+      <div class="quiz-question">
+        Question ${currentQuizIndex + 1}
+        of ${currentQuizQuestions.length}
+        <br><br>
+        ${q.question}
+      </div>
+
+      ${[
+        q.option_a,
+        q.option_b,
+        q.option_c,
+        q.option_d
+      ]
+      .filter(Boolean)
+      .map(opt => `
+
+        <button
+          class="quiz-option"
+          onclick="answerQuestion(
+            this,
+            '${q.correct_answer}'
+          )">
+
+          ${opt}
+
+        </button>
+
+      `).join("")}
+
+    `;
+
+  }
+
+  // =========================
+  // CODE TYPE
+  // =========================
+
+  else if(
+    q.type &&
+    q.type.toLowerCase() === "code"
+  ){
+
+    container.innerHTML = `
+
+      <div class="quiz-question">
+        Question ${currentQuizIndex + 1}
+        of ${currentQuizQuestions.length}
+        <br><br>
+        ${q.question}
+      </div>
+
+      <textarea
+        id="codeInput"
+        class="code-editor"
+        placeholder="Write your code here..."
+      >${q.starter_code || ""}</textarea>
+
+      <button
+        class="btn btn-primary w-100 mt-3"
+        onclick="submitCodeQuestion(
+          '${q.expected_output || ""}'
+        )">
+
+        ▶ Submit Code
+
+      </button>
+
+    `;
+  }
+
+  // =========================
+  // TEXT TYPE
+  // =========================
+
+  else{
+
+    container.innerHTML = `
+
+      <div class="quiz-question">
+        Question ${currentQuizIndex + 1}
+        of ${currentQuizQuestions.length}
+        <br><br>
+        ${q.question}
+      </div>
+
+      <textarea
+        id="textAnswer"
+        class="form-control"
+        rows="5"
+        placeholder="Write your answer..."
+        style="
+          background:#1e293b;
+          color:white;
+          border:none;
+          border-radius:14px;
+        "
+      ></textarea>
+
+      <button
+        class="btn btn-success w-100 mt-3"
+        onclick="submitTextAnswer()">
+
+        Submit Answer
+
+      </button>
+
+    `;
+  }
+}
+
+
+
+  const q =
+    currentQuizQuestions[currentQuizIndex];
+
+  if(!q){
+    return;
+  }
+
+  // =========================
+  // MCQ TYPE
+  // =========================
+
+  if(!q.type || q.type === "mcq"){
+
+    container.innerHTML = `
+
+      <div class="quiz-question">
+        Question ${currentQuizIndex + 1}
+        of ${currentQuizQuestions.length}
+        <br><br>
+        ${q.question}
+      </div>
+
+      ${[
+        q.option_a,
+        q.option_b,
+        q.option_c,
+        q.option_d
+      ]
+      .filter(Boolean)
+      .map(opt => `
+
+        <button
+          class="quiz-option"
+          onclick="answerQuestion(
+            this,
+            '${q.correct_answer}'
+          )">
+
+          ${opt}
+
+        </button>
+
+      `).join("")} 
+
+    `;
+
+  }
+
+  // =========================
+  // CODE TYPE
+  // =========================
+
+else if(q.type && q.type.toLowerCase() === "code"){
+
+    container.innerHTML = `
+
+      <div class="quiz-question">
+        Question ${currentQuizIndex + 1}
+        of ${currentQuizQuestions.length}
+        <br><br>
+        ${q.question}
+      </div>
+
+      <textarea
+        id="codeInput"
+        class="code-editor"
+        placeholder="Write your code here..."
+      >${q.starter_code || ""}</textarea>
+
+      <button
+        class="btn btn-primary w-100 mt-3"
+        onclick="submitCodeQuestion(
+          '${q.expected_output || ""}'
+        )">
+
+        ▶ Submit Code
+
+      </button>
+
+    `;
+  }
+
+  // =========================
+  // NORMAL TEXT TYPE
+  // =========================
+
+  else{
+
+    container.innerHTML = `
+
+      <div class="quiz-question">
+        Question ${currentQuizIndex + 1}
+        of ${currentQuizQuestions.length}
+        <br><br>
+        ${q.question}
+      </div>
+
+      <textarea
+        id="textAnswer"
+        class="form-control"
+        rows="5"
+        placeholder="Write your answer..."
+        style="
+          background:#1e293b;
+          color:white;
+          border:none;
+          border-radius:14px;
+        "
+      ></textarea>
+
+      <button
+        class="btn btn-success w-100 mt-3"
+        onclick="submitTextAnswer()">
+
+        Submit Answer
+
+      </button>
+
+    `;
+  }
+}
+
+function submitCodeQuestion(expected){
+
+  const code =
+    document.getElementById("codeInput")
+    .value
+    .trim();
+
+  const isCorrect =
+    code.includes(expected);
+
+  if(isCorrect){
+
+    quizScore++;
+
+    showToast(
+      "Correct Code!",
+      "success"
+    );
+
+  }else{
+
+    showToast(
+      "Wrong Code Output",
+      "error"
+    );
+  }
+
+  nextQuestion();
+}
+
+function submitTextAnswer(){
+
+  const answer =
+    document.getElementById("textAnswer")
+    .value
+    .trim();
+
+  if(answer.length < 3){
+
+    showToast(
+      "Write proper answer",
+      "warning"
+    );
+
+    return;
+  }
+
+  // OPTIONAL:
+  // you can validate with AI later
+
+  quizScore++;
+
+  showToast(
+    "Answer Submitted",
+    "success"
+  );
+
+  nextQuestion();
+}
+
+function nextQuestion(){
+
+  setTimeout(() => {
+
+    currentQuizIndex++;
+
+    if(
+      currentQuizIndex <
+      currentQuizQuestions.length
+    ){
+
+      renderQuestion();
+
+    }else{
+
+      finishQuiz(currentVideoId);
+
+    }
+
+  },1200);
+}
+
+document.getElementById("quizContainer");
+
+function answerQuestion(btn, correctAnswer){
+
+  const selected =
+    btn.innerText.trim();
+
+  const buttons =
+    document.querySelectorAll(".quiz-option");
+
+  buttons.forEach(b => {
+
+    b.disabled = true;
+
+    if(
+      b.innerText.trim() === correctAnswer
+    ){
+      b.classList.add("correct");
+    }
+  });
+
+  if(selected === correctAnswer){
+
+    quizScore++;
+
+    btn.classList.add("correct");
+
+  }else{
+
+    btn.classList.add("wrong");
+  }
+
+  setTimeout(() => {
+
+    currentQuizIndex++;
+
+    if(
+      currentQuizIndex <
+      currentQuizQuestions.length
+    ){
+
+      renderQuestion();
+
+    }else{
+
+      finishQuiz(currentVideoId);
+
+    }
+
+  },1200);
+}
+
+async function finishQuiz(videoId){
+
+  clearInterval(timerInterval);
+
+  const status =
+    document.getElementById("quizStatus");
+
+  const total =
+    currentQuizQuestions.length;
+
+  const percentage =
+    Math.round((quizScore / total) * 100);
+
+  const passed =
+    percentage >= 50;
+
+  // SAVE
+  await fetch("/submit-quiz", {
+
+    method:"POST",
+
+    headers:{
+      "Content-Type":"application/json"
+    },
+
+    body:JSON.stringify({
+      videoId,
+      correct: passed
+    })
+
+  });
+
+  if(passed){
+
+    passedMap[videoId] = true;
+
+    status.innerHTML = `
+      <div class="alert alert-success">
+
+        ✅ Quiz Passed
+
+        <hr>
+
+        Score:
+        ${quizScore}/${total}
+
+        (${percentage}%)
+
+      </div>
+    `;
+
+    showToast(
+      "Quiz Passed!",
+      "success"
+    );
+
+    setTimeout(() => {
+
+      playNextVideo();
+
+    },2000);
+
+  }else{
+
+    status.innerHTML = `
+      <div class="alert alert-danger">
+
+        ❌ Quiz Failed
+
+        <hr>
+
+        Score:
+        ${quizScore}/${total}
+
+        (${percentage}%)
+
+      </div>
+
+      <button
+        class="btn btn-warning mt-3"
+        onclick="loadQuiz(${videoId})">
+
+        Retry Quiz
+
+      </button>
+    `;
+
+    showToast(
+      "Quiz Failed",
+      "error"
+    );
+  }
+}
+
+
+
+
+
+// TOAST
+function showToast(message, type = "success") {
+  const toast = document.createElement("div");
+  toast.className = `toast-box ${type}`;
+  toast.innerText = message;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 100);
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+// COMPLETE VIDEO
+async function markComplete() {
+  await fetch("/complete-video", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ videoId: currentVideoId })
+  });
+
+  showToast("Marked Complete", "success");
+}
+
+// INIT
+loadQuiz(currentVideoId);
+async function reportComment(commentId){
+
+  const reason = prompt(
+    "Enter reason for reporting this comment:"
+  );
+
+  if(!reason || reason.trim() === ""){
+    showToast("Report cancelled","warning");
+    return;
+  }
+
+  try{
+
+    const res = await fetch("/report-comment", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        commentId,
+        reason
+      })
+    });
+
+    const data = await res.json();
+
+    if(data.success){
+
+      showToast(
+        "Comment reported successfully",
+        "warning"
+      );
+
+    }else{
+
+      showToast(
+        "Failed to report comment",
+        "error"
+      );
+
+    }
+
+  }catch(err){
+
+    showToast(
+      "Something went wrong",
+      "error"
+    );
+
+  }
+}
+</script>

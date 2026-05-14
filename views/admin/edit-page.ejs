@@ -1,0 +1,45 @@
+<h3 class="mb-4">
+  ✏ Edit Page
+</h3>
+
+<form
+  method="POST"
+  action="/admin/edit-page/<%= page.id %>"
+>
+
+  <div class="mb-3">
+
+    <label class="fw-semibold mb-2">
+      Page Title
+    </label>
+
+    <input
+      type="text"
+      name="title"
+      class="form-control"
+      value="<%= page.title %>"
+      required
+    >
+
+  </div>
+
+  <div class="mb-3">
+
+    <label class="fw-semibold mb-2">
+      Content (Markdown Supported)
+    </label>
+
+    <textarea
+      name="content"
+      rows="20"
+      class="form-control"
+      required
+    ><%= page.content %></textarea>
+
+  </div>
+
+  <button class="btn btn-success">
+    💾 Save Changes
+  </button>
+
+</form>

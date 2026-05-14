@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Daily Spin</title>
+
+  <!-- Bootstrap -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  >
+
+<!-- TweenMax REQUIRED -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/zarocknz/javascript-winwheel@master/Winwheel.min.js"></script>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<!-- Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+      background:
+      linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b,
+        #334155
+      );
+
+      font-family:"Segoe UI",sans-serif;
+      position:relative;
+    }
+
+    body::before{
+      content:"";
+      position:absolute;
+      width:500px;
+      height:500px;
+      background:#2563eb;
+      border-radius:50%;
+      top:-220px;
+      left:-150px;
+      filter:blur(120px);
+      opacity:0.4;
+    }
+
+    body::after{
+      content:"";
+      position:absolute;
+      width:450px;
+      height:450px;
+      background:#7c3aed;
+      border-radius:50%;
+      bottom:-220px;
+      right:-150px;
+      filter:blur(120px);
+      opacity:0.4;
+    }
+
+    .wheel-card{
+
+      width:100%;
+      max-width:520px;
+
+      background:rgba(255,255,255,0.08);
+
+      backdrop-filter:blur(20px);
+
+      border:1px solid rgba(255,255,255,0.1);
+
+      border-radius:30px;
+
+      padding:35px;
+
+      text-align:center;
+
+      color:white;
+
+      position:relative;
+
+      z-index:10;
+
+      box-shadow:
+      0 10px 40px rgba(0,0,0,0.25);
+
+      overflow:hidden;
+    }
+canvas{
+  max-width:100%;
+  height:auto;
+}
+    .wheel-title{
+      font-size:32px;
+      font-weight:700;
+      margin-bottom:10px;
+    }
+
+    .wheel-subtitle{
+      color:#cbd5e1;
+      margin-bottom:25px;
+      font-size:15px;
+    }
+
+    .pointer{
+
+      width:0;
+      height:0;
+
+      border-left:20px solid transparent;
+      border-right:20px solid transparent;
+      border-top:40px solid #facc15;
+
+      margin:auto;
+
+      position:relative;
+      z-index:20;
+
+      filter:drop-shadow(0 0 10px #facc15);
+    }
+
+    canvas{
+      margin-top:-10px;
+    }
+
+    .spin-btn{
+
+      margin-top:25px;
+
+      width:100%;
+      height:55px;
+
+      border:none;
+      border-radius:16px;
+
+      background:
+      linear-gradient(
+        135deg,
+        #2563eb,
+        #7c3aed
+      );
+
+      color:white;
+
+      font-size:17px;
+      font-weight:600;
+
+      transition:0.3s;
+    }
+
+    .spin-btn:hover{
+      transform:translateY(-2px);
+
+      box-shadow:
+      0 8px 20px rgba(37,99,235,0.4);
+    }
+
+    .reward-box{
+
+      margin-top:25px;
+
+      background:rgba(255,255,255,0.06);
+
+      border-radius:18px;
+
+      padding:18px;
+
+      display:none;
+    }
+
+    .reward-text{
+      font-size:22px;
+      font-weight:700;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="wheel-card">
+
+    <h1 class="wheel-title">
+      🎡 Daily Spin Wheel
+    </h1>
+
+    <p class="wheel-subtitle">
+      Spin daily and win exciting rewards
+    </p>
+
+    <div class="pointer"></div>
+
+    <canvas
+      id="wheelCanvas"
+      width="380"
+      height="380"
+    >
+    </canvas>
+
+    <button
+      class="spin-btn"
+      onclick="spinWheel()"
+      id="spinBtn"
+    >
+      <span id="btnText">
+  <i class="bi bi-stars"></i>
+  Spin Now
+</span>
+    </button>
+
+    <div class="reward-box" id="rewardBox">
+
+      <div class="reward-text" id="rewardText"></div>
+
+    </div>
+
+  </div>
+
+<script>
+
+let wheel = new Winwheel({
+
+  canvasId: 'wheelCanvas',
+
+  numSegments: 7,
+
+  outerRadius: 170,
+
+  textFontSize: 16,
+
+  segments: [
+
+    { fillStyle:'#2563eb', text:'+10 XP' },
+
+    { fillStyle:'#7c3aed', text:'+50 XP' },
+
+    { fillStyle:'#0ea5e9', text:'+100 XP' },
+
+    { fillStyle:'#16a34a', text:'Premium' },
+
+    { fillStyle:'#f97316', text:'Double XP' },
+
+    { fillStyle:'#e11d48', text:'Bonus Quiz' },
+
+    { fillStyle:'#64748b', text:'Nothing 😅' }
+
+  ],
+
+animation: {
+
+  type:'spinToStop',
+
+  duration:6,
+
+  spins:8
+
+}
+
+});
+
+async function spinWheel(){
+
+  const btn =
+    document.getElementById("spinBtn");
+
+  btn.disabled = true;
+
+  // 🔥 GET REAL REWARD FROM SERVER
+
+  const response = await fetch(
+    "/spin-wheel",
+    {
+      method:"POST"
+    }
+  );
+
+  const data = await response.json();
+
+  // ❌ already used today
+
+  if(data.error){
+
+    alert(data.error);
+
+    btn.disabled = false;
+
+    return;
+  }
+
+  // 🎯 reward mapping
+
+  const rewardMap = {
+
+    "10":1,
+    "50":2,
+    "100":3,
+
+    "premium_unlock":4,
+
+    "double_xp":5,
+
+    "quiz_unlock":6,
+
+    "nothing":7
+  };
+
+  let segmentNumber = 7;
+
+  if(data.reward.type === "xp"){
+
+    segmentNumber =
+      rewardMap[
+        data.reward.value.toString()
+      ];
+
+  }else{
+
+    segmentNumber =
+      rewardMap[
+        data.reward.type
+      ];
+  }
+
+  // 🎡 STOP ON CORRECT SEGMENT
+
+  wheel.animation.stopAngle =
+    wheel.getRandomForSegment(
+      segmentNumber
+    );
+
+  wheel.animation.callbackFinished =
+    function(){
+
+      showReward(
+        wheel.segments[segmentNumber]
+      );
+    };
+
+  wheel.startAnimation();
+}
+
+function showReward(indicatedSegment){
+
+  const reward =
+    indicatedSegment.text;
+
+  document.getElementById(
+    "rewardBox"
+  ).style.display = "block";
+
+  document.getElementById(
+    "rewardText"
+  ).innerHTML =
+    "🎉 You won: " + reward;
+
+  // CONFETTI
+
+  confetti({
+
+    particleCount:200,
+
+    spread:120,
+
+    origin:{ y:0.6 }
+
+  });
+
+  // SOUND
+
+  const audio = new Audio(
+    "https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3"
+  );
+
+  audio.play();
+
+  // GLOW EFFECT
+
+  gsap.fromTo(
+
+    "#rewardBox",
+
+    {
+      scale:0.5,
+      opacity:0
+    },
+
+    {
+      scale:1,
+      opacity:1,
+      duration:0.6
+    }
+  );
+  
+}
+// ⏳ AUTO REDIRECT AFTER 30 SEC
+
+setTimeout(()=>{
+
+  window.location.href = "/courses";
+
+},10000);
+
+</script>
+
+</body>
+</html>

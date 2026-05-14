@@ -1,0 +1,40 @@
+<h4 class="mb-4">🚨 Reported Comments</h4>
+
+<table class="table table-dark table-striped">
+
+  <thead>
+    <tr>
+      <th>Comment</th>
+      <th>Reason</th>
+      <th>User</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% reports.forEach(r => { %>
+
+      <tr>
+        <td><%= r.message %></td>
+        <td><%= r.reason %></td>
+        <td><%= r.user_name %></td>
+
+        <td class="d-flex gap-2">
+
+          <form action="/admin/delete-comment/<%= r.comment_id %>" method="POST">
+            <button class="btn btn-danger btn-sm">Delete</button>
+          </form>
+
+          <form action="/admin/ignore-report/<%= r.id %>" method="POST">
+            <button class="btn btn-secondary btn-sm">Ignore</button>
+          </form>
+
+        </td>
+
+      </tr>
+
+    <% }) %>
+
+  </tbody>
+
+</table>

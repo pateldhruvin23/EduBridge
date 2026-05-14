@@ -1,0 +1,179 @@
+<div class="container py-4">
+
+  <h3 class="fw-bold mb-4">
+    Unblock Requests
+  </h3>
+
+  <!-- PENDING -->
+
+  <div class="row">
+
+    <% requests
+      .filter(r => r.status === "pending")
+      .forEach(r => { %>
+
+      <div class="col-md-6 mb-4">
+
+        <div class="card border-0 shadow rounded-4">
+
+          <div class="card-body">
+
+            <h5 class="fw-bold">
+              <%= r.email %>
+            </h5>
+
+            <p>User ID: <%= r.user_id %></p>
+
+            <img
+              src="data:image/jpeg;base64,<%= r.imageBase64 %>"
+              class="img-fluid rounded mb-3"
+            >
+
+            <div class="d-flex gap-2">
+
+              <form action="/admin/approve-unblock/<%= r.id %>" method="POST">
+
+                <button class="btn btn-success">
+                  Approve
+                </button>
+
+              </form>
+
+              <form action="/admin/reject-unblock/<%= r.id %>" method="POST">
+
+                <button class="btn btn-danger">
+                  Reject
+                </button>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    <% }) %>
+
+  </div>
+
+  <!-- HISTORY -->
+
+  <div class="mt-5">
+
+    <button
+      class="btn btn-dark"
+      data-bs-toggle="collapse"
+      data-bs-target="#historyBox"
+    >
+      View History
+    </button>
+
+    <div class="collapse mt-3" id="historyBox">
+
+      <div class="card shadow border-0 rounded-4">
+
+        <div class="card-body">
+
+          <table class="table">
+
+            <thead>
+
+              <tr>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Image</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <% requests
+                .filter(r => r.status !== "pending")
+                .forEach(r => { %>
+
+                <tr>
+
+                  <td><%= r.email %></td>
+
+                  <td>
+
+                    <% if(r.status==="approved"){ %>
+
+                      <span class="badge bg-success">
+                        Approved
+                      </span>
+
+                    <% } else { %>
+
+                      <span class="badge bg-danger">
+                        Rejected
+                      </span>
+
+                    <% } %>
+
+                  </td>
+
+                  <td>
+                    <%= r.admin_action_at %>
+                  </td>
+
+                  <td>
+
+                    <button
+                      class="btn btn-sm btn-dark"
+                      data-bs-toggle="modal"
+                      data-bs-target="#imgModal<%= r.id %>"
+                    >
+                      View
+                    </button>
+
+                    <!-- MODAL -->
+
+                    <div
+                      class="modal fade"
+                      id="imgModal<%= r.id %>"
+                    >
+
+                      <div class="modal-dialog modal-dialog-centered">
+
+                        <div class="modal-content">
+
+                          <div class="modal-body">
+
+                            <img
+                              src="data:image/jpeg;base64,<%= r.imageBase64 %>"
+                              class="img-fluid rounded"
+                            >
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              <% }) %>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

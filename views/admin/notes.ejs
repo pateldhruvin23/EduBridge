@@ -1,0 +1,51 @@
+<h4 class="mb-4">📁 Upload Notes</h4>
+
+<form action="/admin/add-note" method="POST" enctype="multipart/form-data">
+
+  <!-- 🔽 COURSE DROPDOWN -->
+  <div class="mb-3">
+    <label>Select Course</label>
+
+    <select name="courseId" id="courseSelect" class="form-control" required>
+      <option value="">-- Select Course --</option>
+
+      <% courses.forEach(course => { %>
+        <option value="<%= course.id %>">
+          <%= course.title %> (ID: <%= course.id %>)
+        </option>
+      <% }) %>
+
+    </select>
+  </div>
+
+  <!-- 🧠 AUTO SHOW COURSE ID -->
+  <div class="mb-3">
+    <label>Selected Course ID</label>
+    <input type="text" id="courseIdDisplay" class="form-control" readonly>
+  </div>
+
+  <!-- 📝 NOTE TITLE -->
+  <div class="mb-3">
+    <input type="text" name="title" class="form-control" placeholder="Note Title" required>
+  </div>
+
+  <!-- 📄 FILE -->
+  <div class="mb-3">
+    <input type="file" name="pdf" class="form-control" required>
+  </div>
+
+  <button class="btn btn-success w-100">
+    📤 Upload Note
+  </button>
+
+</form>
+
+<!-- 🔥 SCRIPT -->
+<script>
+const select = document.getElementById("courseSelect");
+const display = document.getElementById("courseIdDisplay");
+
+select.addEventListener("change", () => {
+  display.value = select.value;
+});
+</script>

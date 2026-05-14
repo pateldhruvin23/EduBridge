@@ -1,0 +1,718 @@
+<style>
+
+  body{
+    background:#f1f5f9;
+    font-family:'Poppins',sans-serif;
+  }
+
+  /* =========================
+     PROFILE HERO
+  ========================= */
+
+  .profile-hero{
+    background:linear-gradient(
+      135deg,
+      #2563eb,
+      #1e3a8a
+    );
+    border-radius:32px;
+    padding:40px;
+    color:white;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(37,99,235,0.25);
+  }
+
+  .profile-hero::before{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    top:-100px;
+    right:-100px;
+  }
+
+  .profile-avatar{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    background:white;
+    color:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:45px;
+    font-weight:700;
+    box-shadow:0 15px 30px rgba(0,0,0,0.15);
+  }
+
+  .verified-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:#22c55e;
+    padding:10px 16px;
+    border-radius:30px;
+    font-size:14px;
+    margin-top:10px;
+    font-weight:500;
+  }
+
+  /* =========================
+     CARDS
+  ========================= */
+
+  .modern-card{
+    background:white;
+    border-radius:28px;
+    padding:30px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.06);
+    border:none;
+  }
+
+  /* =========================
+     STATS
+  ========================= */
+
+  .stat-card{
+    background:white;
+    border-radius:24px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 8px 25px rgba(0,0,0,0.05);
+    transition:0.3s;
+    height:100%;
+  }
+
+  .stat-card:hover{
+    transform:translateY(-5px);
+  }
+
+  .stat-icon{
+    width:65px;
+    height:65px;
+    border-radius:18px;
+    background:#eff6ff;
+    color:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    font-size:28px;
+    margin-bottom:18px;
+  }
+
+  .stat-number{
+    font-size:30px;
+    font-weight:700;
+    color:#0f172a;
+  }
+
+  .stat-label{
+    color:#64748b;
+    margin-top:5px;
+    font-size:15px;
+  }
+
+  /* =========================
+     COURSE CARD
+  ========================= */
+
+  .course-card{
+    background:#fff;
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.05);
+    transition:0.3s;
+    height:100%;
+  }
+
+  .course-card:hover{
+    transform:translateY(-5px);
+  }
+
+  .course-title{
+    font-size:20px;
+    font-weight:700;
+    color:#0f172a;
+    margin-bottom:15px;
+  }
+
+  .modern-btn{
+    border-radius:14px;
+    padding:12px;
+    font-weight:600;
+  }
+
+  /* =========================
+     FORM
+  ========================= */
+
+  .form-control{
+    border-radius:16px;
+    padding:14px;
+    border:1px solid #dbeafe;
+    background:#f8fafc;
+  }
+
+  .form-control:focus{
+    border-color:#2563eb;
+    box-shadow:none;
+    background:white;
+  }
+
+  .save-btn{
+    border-radius:16px;
+    padding:14px;
+    font-weight:600;
+  }
+
+  /* =========================
+     SETTINGS
+  ========================= */
+
+  .settings-btn{
+    border-radius:16px;
+    padding:14px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    justify-content:center;
+  }
+
+  /* =========================
+     MOBILE
+  ========================= */
+
+  @media(max-width:768px){
+
+    .profile-hero{
+      text-align:center;
+      padding:30px 25px;
+    }
+
+    .profile-avatar{
+      margin:auto;
+      margin-bottom:20px;
+    }
+
+  }
+.course-list-item{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:20px;
+  padding:18px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transition:0.3s;
+  gap:15px;
+}
+
+.course-list-item:hover{
+  transform:translateY(-3px);
+  background:white;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
+
+.course-number{
+  width:55px;
+  height:55px;
+  border-radius:16px;
+  background:#2563eb;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:20px;
+  flex-shrink:0;
+}
+
+@media(max-width:768px){
+
+  .course-list-item{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .course-list-item .btn{
+    width:100%;
+  }
+
+}
+</style>
+
+<div class="container-fluid">
+
+  <!-- =========================
+       HERO
+  ========================= -->
+
+  <div class="profile-hero mb-4">
+
+    <div class="row align-items-center">
+
+      <div class="col-md-2 text-center text-md-start">
+
+        <div class="profile-avatar">
+          <%= user.name.charAt(0).toUpperCase() %>
+        </div>
+
+      </div>
+
+      <div class="col-md-10 mt-4 mt-md-0">
+
+        <h2 class="fw-bold mb-2">
+          <%= user.name %>
+        </h2>
+
+        <p class="opacity-75 mb-1">
+          <i class="bi bi-envelope-fill"></i>
+          <%= user.email %>
+        </p>
+
+        <!-- <p class="opacity-75 mb-0">
+          <i class="bi bi-calendar-event"></i>
+          Joined:
+          <%= new Date(user.created_at).toLocaleDateString() %>
+        </p> -->
+
+        <% if(user.is_verified){ %>
+
+          <div class="verified-badge">
+            <i class="bi bi-patch-check-fill"></i>
+            Verified Account
+          </div>
+
+        <% } %>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- =========================
+       STATS
+  ========================= -->
+
+<!-- =========================
+     STATS
+========================= -->
+
+<div class="row mb-4">
+
+  <!-- COURSES -->
+
+  <div class="col-xl-3 col-md-6 mb-3">
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        <i class="bi bi-book-fill"></i>
+      </div>
+
+      <div class="stat-number">
+        <%= courses.length %>
+      </div>
+
+      <div class="stat-label">
+        Courses Joined
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- LESSONS -->
+
+  <div class="col-xl-3 col-md-6 mb-3">
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+
+      <div class="stat-number">
+        <%= completedVideos %>
+      </div>
+
+      <div class="stat-label">
+        Lessons Completed
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- XP -->
+
+  <div class="col-xl-3 col-md-6 mb-3">
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        <i class="bi bi-lightning-charge-fill"></i>
+      </div>
+
+      <div class="stat-number">
+        <%= user.xp || 0 %>
+      </div>
+
+      <div class="stat-label">
+        XP Earned
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ROLE -->
+
+  <div class="col-xl-3 col-md-6 mb-3">
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        <i class="bi bi-person-badge-fill"></i>
+      </div>
+
+      <div class="stat-number text-capitalize fs-4">
+        <%= user.role %>
+      </div>
+
+      <div class="stat-label">
+        Account Type
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+  <!-- =========================
+       EDIT PROFILE
+  ========================= -->
+
+  <div class="modern-card mb-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+      <h4 class="fw-bold mb-0">
+        ✏️ Edit Profile
+      </h4>
+
+    </div>
+
+    <form method="POST" action="/update-profile">
+
+      <div class="row">
+
+        <!-- NAME -->
+
+        <div class="col-md-6 mb-3">
+
+          <label class="form-label fw-semibold">
+            Full Name
+          </label>
+
+          <input
+            type="text"
+            name="name"
+            value="<%= user.name %>"
+            class="form-control"
+            required
+          >
+
+        </div>
+
+        <!-- EMAIL -->
+
+        <div class="col-md-6 mb-3">
+
+          <label class="form-label fw-semibold">
+            Email Address
+          </label>
+
+          <input
+            type="email"
+            name="email"
+            value="<%= user.email %>"
+            class="form-control"
+            required
+          >
+
+        </div>
+
+      </div>
+
+      <button class="btn btn-primary save-btn mt-2">
+
+        <i class="bi bi-check-circle-fill"></i>
+        Save Changes
+
+      </button>
+
+    </form>
+
+  </div>
+
+<!-- =========================
+     ENROLLED COURSES
+========================= -->
+
+<div class="modern-card mb-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h4 class="fw-bold mb-0">
+      📚 Enrolled Courses
+    </h4>
+
+    <span class="text-muted">
+      <%= courses.length %> Courses
+    </span>
+
+  </div>
+
+  <% if(courses.length > 0){ %>
+
+    <div class="d-flex flex-column gap-3">
+
+      <% courses.forEach((c,index) => { %>
+
+        <div class="course-list-item">
+
+          <!-- LEFT -->
+
+          <div class="d-flex align-items-center gap-3">
+
+            <div class="course-number">
+              <%= index + 1 %>
+            </div>
+
+            <div>
+
+              <h5 class="course-title mb-1">
+                <%= c.title %>
+              </h5>
+
+              <small class="text-muted">
+                Enrolled Course
+              </small>
+
+            </div>
+
+          </div>
+
+          <!-- RIGHT -->
+
+          <a
+            href="/course/<%= c.id %>"
+            class="btn btn-dark modern-btn"
+          >
+            Open Course
+          </a>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  <% } else { %>
+
+    <div class="alert alert-light border rounded-4 mb-0">
+
+      No enrolled courses found.
+
+    </div>
+
+  <% } %>
+
+</div>
+<!-- =========================
+     SPIN REWARD HISTORY
+========================= -->
+
+<div class="modern-card mb-4">
+
+  <div
+    class="d-flex justify-content-between
+    align-items-center mb-4"
+  >
+
+    <h4 class="fw-bold mb-0">
+      🎡 Spin Reward History
+    </h4>
+
+    <span class="text-muted">
+      Last <%= spinRewards.length %> Rewards
+    </span>
+
+  </div>
+
+  <% if(spinRewards.length > 0){ %>
+
+    <div class="d-flex flex-column gap-3">
+
+      <% spinRewards.forEach((r,index)=>{ %>
+
+        <div
+          class="course-list-item"
+        >
+
+          <!-- LEFT -->
+
+          <div
+            class="d-flex align-items-center gap-3"
+          >
+
+            <div
+              class="course-number"
+              style="
+                background:
+                linear-gradient(
+                  135deg,
+                  #7c3aed,
+                  #2563eb
+                );
+              "
+            >
+              🎁
+            </div>
+
+            <div>
+
+              <h5
+                class="course-title mb-1 text-capitalize"
+              >
+
+                <% if(r.reward_type === "xp"){ %>
+
+                  +<%= r.reward_value %> XP Reward
+
+                <% } else if(r.reward_type === "premium_unlock"){ %>
+
+                  Premium Unlock
+
+                <% } else if(r.reward_type === "double_xp"){ %>
+
+                  Double XP Boost
+
+                <% } else if(r.reward_type === "quiz_unlock"){ %>
+
+                  Bonus Quiz Unlock
+
+                <% } else { %>
+
+                  Better Luck Next Time 😅
+
+                <% } %>
+
+              </h5>
+
+              <small class="text-muted">
+
+                Won on
+                <%= new Date(
+                  r.created_at
+                ).toLocaleString() %>
+
+              </small>
+
+            </div>
+
+          </div>
+
+          <!-- RIGHT -->
+
+          <div>
+
+            <% if(r.reward_type === "xp"){ %>
+
+              <span
+                class="badge bg-success p-3"
+              >
+                +<%= r.reward_value %> XP
+              </span>
+
+            <% } else { %>
+
+              <span
+                class="badge bg-primary p-3"
+              >
+                Reward
+              </span>
+
+            <% } %>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  <% } else { %>
+
+    <div
+      class="alert alert-light
+      border rounded-4 mb-0"
+    >
+
+      No spin rewards found yet.
+
+    </div>
+
+  <% } %>
+
+</div>
+  <!-- =========================
+       SETTINGS
+  ========================= -->
+
+  <div class="modern-card">
+
+    <h4 class="fw-bold mb-4">
+      ⚙️ Account Settings
+    </h4>
+
+    <div class="row">
+
+      <div class="col-md-6 mb-3">
+
+        <a
+          href="/forgot-password"
+          class="btn btn-outline-dark w-100 settings-btn"
+        >
+          <i class="bi bi-lock-fill"></i>
+          Change Password
+        </a>
+
+      </div>
+
+      <div class="col-md-6 mb-3">
+
+        <a
+          href="/logout"
+          class="btn btn-danger w-100 settings-btn"
+        >
+          <i class="bi bi-box-arrow-right"></i>
+          Logout
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,92 @@
+<h4>Quiz Manager</h4>
+
+<form action="/admin/add-quiz" method="POST" class="row g-3">
+
+  <!-- COURSE -->
+  <div class="col-md-4">
+    <label>Course</label>
+    <select id="courseSelect" class="form-control">
+      <option value="">Select Course</option>
+      <% courses.forEach(c => { %>
+        <option value="<%= c.id %>"><%= c.title %></option>
+      <% }) %>
+    </select>
+  </div>
+
+  <!-- VIDEO -->
+  <div class="col-md-4">
+    <label>Video</label>
+    <select name="videoId" id="videoSelect" class="form-control" required></select>
+  </div>
+
+  <!-- TYPE -->
+  <div class="col-md-4">
+    <label>Type</label>
+    <select name="type" id="quizType" class="form-control">
+      <option value="mcq">MCQ</option>
+      <option value="code">Coding</option>
+    </select>
+  </div>
+
+  <!-- QUESTION -->
+  <div class="col-md-12">
+    <textarea name="question" rows="4" class="form-control" placeholder="Enter full question (multi-line supported)" required></textarea>
+  </div>
+
+  <!-- MCQ OPTIONS -->
+  <div id="mcqFields" class="row">
+    <div class="col-md-3"><input name="option_a" class="form-control" placeholder="Option A"></div>
+    <div class="col-md-3"><input name="option_b" class="form-control" placeholder="Option B"></div>
+    <div class="col-md-3"><input name="option_c" class="form-control" placeholder="Option C"></div>
+    <div class="col-md-3"><input name="option_d" class="form-control" placeholder="Option D"></div>
+
+    <div class="col-md-4 mt-2">
+      <input name="correct_answer" class="form-control" placeholder="Correct Answer">
+    </div>
+  </div>
+
+  <!-- CODING FIELDS -->
+  <div id="codeFields" style="display:none;">
+    <div class="col-md-12">
+      <textarea name="starter_code" rows="6" class="form-control mt-2" placeholder="Starter Code"></textarea>
+    </div>
+
+    <div class="col-md-12">
+      <textarea name="expected_output" rows="3" class="form-control mt-2" placeholder="Expected Output"></textarea>
+    </div>
+  </div>
+
+  <!-- TIME -->
+  <div class="col-md-2">
+    <input type="number" name="time_limit" class="form-control" value="60">
+  </div>
+
+  <div class="col-md-2">
+    <button class="btn btn-success w-100">Add</button>
+  </div>
+
+</form>
+
+<script>
+const courseSelect = document.getElementById("courseSelect");
+const videoSelect = document.getElementById("videoSelect");
+const quizType = document.getElementById("quizType");
+
+courseSelect.addEventListener("change", async () => {
+  const res = await fetch("/admin/videos/" + courseSelect.value);
+  const videos = await res.json();
+
+  videoSelect.innerHTML = '';
+  videos.forEach(v => {
+    videoSelect.innerHTML += `<option value="${v.id}">${v.title}</option>`;
+  });
+});
+
+// 🔥 SWITCH TYPE UI
+quizType.addEventListener("change", () => {
+  const isCode = quizType.value === "code";
+
+  document.getElementById("mcqFields").style.display = isCode ? "none" : "flex";
+  document.getElementById("codeFields").style.display = isCode ? "block" : "none";
+});
+</script>
