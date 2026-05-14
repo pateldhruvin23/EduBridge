@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
+const pgSession = require("connect-pg-simple")(session);
 require("dotenv").config();
 
 const expressLayouts = require("express-ejs-layouts");
@@ -17,9 +18,28 @@ app.use(express.static(path.join(__dirname, "public")));
 // Session
 app.use(
   session({
+
+    store: new pgSession({
+      conString: process.env.DATABASE_URL
+    }),
+
     secret: process.env.SESSION_SECRET || "secret123",
+
     resave: false,
+
     saveUninitialized: false,
+
+    cookie: {
+
+      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
+
+      httpOnly: true,
+
+      secure: process.env.NODE_ENV === "production",
+
+      sameSite: "lax"
+    }
+
   })
 );
 
