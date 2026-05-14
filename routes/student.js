@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const uploadImage = require("../config/memoryUpload");
 const { marked } = require("marked");
 const { emailLayout } = require("../utils/emailTemplates");
-const admin = require("../firebase");
+const admin = require("../config/firebase");
 // 🎓 View all courses
 const sendEmail = require("../utils/mailer");
 

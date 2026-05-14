@@ -8,7 +8,7 @@ const sendEmail = require("../utils/mailer");
 const { marked } = require("marked");
 const { emailLayout } =
 require("../utils/emailTemplates");
-const admin = require("../firebase");
+const admin = require("../config/firebase");
 // =========================
 // 🎯 DASHBOARD
 // =========================
