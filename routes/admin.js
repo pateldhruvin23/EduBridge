@@ -8,7 +8,7 @@ const sendEmail = require("../utils/mailer");
 const { marked } = require("marked");
 const { emailLayout } =
 require("../utils/emailTemplates");
-
+const admin = require("../firebase");
 // =========================
 // 🎯 DASHBOARD
 // =========================
@@ -514,55 +514,91 @@ router.post("/send-notification", isAdmin, async (req, res) => {
     }
 
     // 🔥 LOOP USERS
-    for (let u of users.rows) {
+for (let u of users.rows) {
 
-      // 🔔 APP NOTIFICATION
-      await pool.query(
-        "INSERT INTO user_notifications (user_id, notification_id) VALUES ($1,$2)",
-        [u.id, notificationId]
-      );
+  // 🔔 SAVE APP NOTIFICATION
+  await pool.query(
+    "INSERT INTO user_notifications (user_id, notification_id) VALUES ($1,$2)",
+    [u.id, notificationId]
+  );
 
-      // 📧 EMAIL (NON-BLOCKING)
-    sendEmail(
-  u.email,
-  "🔔 New EduBridge Notification",
+  // =========================
+  // 📱 PUSH NOTIFICATION
+  // =========================
 
-  emailLayout(
-    "You Have A New Notification",
-
+  const tokens = await pool.query(
     `
-    <p>
-      ${message}
-    </p>
+    SELECT token
+    FROM device_tokens
+    WHERE user_id=$1
+    `,
+    [u.id]
+  );
 
-    <div style="margin:35px 0;">
+  for (let t of tokens.rows) {
 
-      <a
-        href="http://localhost:3000"
+    await admin.messaging().send({
 
-        style="
-          background:#2563eb;
-          color:white;
-          padding:14px 22px;
-          text-decoration:none;
-          border-radius:12px;
-          display:inline-block;
-          font-weight:600;
-        "
-      >
-        Open EduBridge
-      </a>
+      token: t.token,
 
-    </div>
+      notification: {
+        title: "EduBridge",
+        body: message
+      },
 
-    <p>
-      Stay updated with
-      your learning journey 🚀
-    </p>
-    `
-  )
-).catch(err => console.error("Email error:", err));
-    }
+      data: {
+        type: "notification"
+      }
+
+    });
+
+  }
+
+  // =========================
+  // 📧 EMAIL
+  // =========================
+
+  sendEmail(
+    u.email,
+    "🔔 New EduBridge Notification",
+
+    emailLayout(
+      "You Have A New Notification",
+
+      `
+      <p>
+        ${message}
+      </p>
+
+      <div style="margin:35px 0;">
+
+        <a
+          href="https://edubridge.online"
+
+          style="
+            background:#2563eb;
+            color:white;
+            padding:14px 22px;
+            text-decoration:none;
+            border-radius:12px;
+            display:inline-block;
+            font-weight:600;
+          "
+        >
+          Open EduBridge
+        </a>
+
+      </div>
+
+      <p>
+        Stay updated with
+        your learning journey 🚀
+      </p>
+      `
+    )
+  ).catch(err => console.error("Email error:", err));
+
+}
 
     res.redirect("/admin/notifications");
 
@@ -844,6 +880,21 @@ router.post("/edit-page/:id", isAdmin, async (req,res)=>{
 
 });
 
+router.post("/save-device-token", async (req, res) => {
 
+  const { userId, token } = req.body;
+
+  await pool.query(
+    `
+    INSERT INTO device_tokens (user_id, token)
+    VALUES ($1,$2)
+    `,
+    [userId, token]
+  );
+
+  res.json({
+    success: true
+  });
+});
 
 module.exports = router;

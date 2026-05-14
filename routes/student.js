@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const uploadImage = require("../config/memoryUpload");
 const { marked } = require("marked");
 const { emailLayout } = require("../utils/emailTemplates");
-
+const admin = require("../firebase");
 // 🎓 View all courses
 const sendEmail = require("../utils/mailer");
 
@@ -1302,5 +1302,22 @@ router.get("/spin-wheel", isLoggedIn, (req,res)=>{
 
   res.render("student/spin-wheel");
 
+});
+
+router.post("/save-device-token", async (req, res) => {
+
+  const { userId, token } = req.body;
+
+  await pool.query(
+    `
+    INSERT INTO device_tokens (user_id, token)
+    VALUES ($1,$2)
+    `,
+    [userId, token]
+  );
+
+  res.json({
+    success: true
+  });
 });
 module.exports = router;
