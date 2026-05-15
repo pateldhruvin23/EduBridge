@@ -334,23 +334,67 @@ router.post("/track", isLoggedIn, async (req, res) => {
 
 // ✅ Complete video
 router.post("/complete-video", isLoggedIn, async (req, res) => {
-  const { videoId } = req.body;
-  const userId = req.session.user.id;
+console.log(req.body);
+  try{
 
-  await pool.query(
-    "UPDATE progress SET last_watched=false WHERE user_id=$1",
-    [userId]
-  );
+    const { videoId } = req.body;
 
-  await pool.query(
-    `INSERT INTO progress (user_id, video_id, completed, last_watched)
-     VALUES ($1,$2,true,true)
-     ON CONFLICT (user_id, video_id)
-     DO UPDATE SET completed=true, last_watched=true`,
-    [userId, videoId]
-  );
+    const userId = req.session.user.id;
 
-  res.json({ success: true });
+    // REMOVE OLD LAST WATCHED
+
+    await pool.query(
+      `
+      UPDATE progress
+      SET last_watched=false
+      WHERE user_id=$1
+      `,
+      [userId]
+    );
+
+    // INSERT / UPDATE
+
+    await pool.query(
+
+      `
+      INSERT INTO progress
+      (
+        user_id,
+        video_id,
+        completed,
+        last_watched
+      )
+
+      VALUES($1,$2,true,true)
+
+      ON CONFLICT(user_id, video_id)
+
+      DO UPDATE SET
+
+      completed=true,
+      last_watched=true
+      `,
+
+      [userId, videoId]
+    );
+
+    res.json({
+      success:true
+    });
+
+  }catch(err){
+
+    console.error(
+      "COMPLETE VIDEO ERROR:",
+      err
+    );
+
+    res.status(500).json({
+      success:false
+    });
+
+  }
+
 });
 
 router.post("/submit-quiz", isLoggedIn, async (req, res) => {

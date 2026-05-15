@@ -1689,9 +1689,7 @@ function renderQuestion(){
     return;
   }
 
-  // =========================
-  // MCQ TYPE
-  // =========================
+  // MCQ
 
   if(!q.type || q.type === "mcq"){
 
@@ -1715,10 +1713,7 @@ function renderQuestion(){
 
         <button
           class="quiz-option"
-          onclick="answerQuestion(
-            this,
-            '${q.correct_answer}'
-          )">
+          onclick="answerQuestion(this,'${q.correct_answer}')">
 
           ${opt}
 
@@ -1730,9 +1725,7 @@ function renderQuestion(){
 
   }
 
-  // =========================
-  // CODE TYPE
-  // =========================
+  // CODE
 
   else if(
     q.type &&
@@ -1756,20 +1749,17 @@ function renderQuestion(){
 
       <button
         class="btn btn-primary w-100 mt-3"
-        onclick="submitCodeQuestion(
-          '${q.expected_output || ""}'
-        )">
+        onclick="submitCodeQuestion('${q.expected_output || ""}')">
 
         ▶ Submit Code
 
       </button>
 
     `;
+
   }
 
-  // =========================
-  // TEXT TYPE
-  // =========================
+  // TEXT
 
   else{
 
@@ -1804,131 +1794,9 @@ function renderQuestion(){
       </button>
 
     `;
-  }
-}
-
-
-
-  const q =
-    currentQuizQuestions[currentQuizIndex];
-
-  if(!q){
-    return;
-  }
-
-  // =========================
-  // MCQ TYPE
-  // =========================
-
-  if(!q.type || q.type === "mcq"){
-
-    container.innerHTML = `
-
-      <div class="quiz-question">
-        Question ${currentQuizIndex + 1}
-        of ${currentQuizQuestions.length}
-        <br><br>
-        ${q.question}
-      </div>
-
-      ${[
-        q.option_a,
-        q.option_b,
-        q.option_c,
-        q.option_d
-      ]
-      .filter(Boolean)
-      .map(opt => `
-
-        <button
-          class="quiz-option"
-          onclick="answerQuestion(
-            this,
-            '${q.correct_answer}'
-          )">
-
-          ${opt}
-
-        </button>
-
-      `).join("")} 
-
-    `;
 
   }
 
-  // =========================
-  // CODE TYPE
-  // =========================
-
-else if(q.type && q.type.toLowerCase() === "code"){
-
-    container.innerHTML = `
-
-      <div class="quiz-question">
-        Question ${currentQuizIndex + 1}
-        of ${currentQuizQuestions.length}
-        <br><br>
-        ${q.question}
-      </div>
-
-      <textarea
-        id="codeInput"
-        class="code-editor"
-        placeholder="Write your code here..."
-      >${q.starter_code || ""}</textarea>
-
-      <button
-        class="btn btn-primary w-100 mt-3"
-        onclick="submitCodeQuestion(
-          '${q.expected_output || ""}'
-        )">
-
-        ▶ Submit Code
-
-      </button>
-
-    `;
-  }
-
-  // =========================
-  // NORMAL TEXT TYPE
-  // =========================
-
-  else{
-
-    container.innerHTML = `
-
-      <div class="quiz-question">
-        Question ${currentQuizIndex + 1}
-        of ${currentQuizQuestions.length}
-        <br><br>
-        ${q.question}
-      </div>
-
-      <textarea
-        id="textAnswer"
-        class="form-control"
-        rows="5"
-        placeholder="Write your answer..."
-        style="
-          background:#1e293b;
-          color:white;
-          border:none;
-          border-radius:14px;
-        "
-      ></textarea>
-
-      <button
-        class="btn btn-success w-100 mt-3"
-        onclick="submitTextAnswer()">
-
-        Submit Answer
-
-      </button>
-
-    `;
-  }
 }
 
 function submitCodeQuestion(expected){
@@ -2179,14 +2047,77 @@ function showToast(message, type = "success") {
 }
 
 // COMPLETE VIDEO
-async function markComplete() {
-  await fetch("/complete-video", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ videoId: currentVideoId })
-  });
+async function markComplete(){
 
-  showToast("Marked Complete", "success");
+  console.log(currentVideoId);
+
+  try{
+
+    const res = await fetch(
+      "/complete-video",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+          videoId: currentVideoId
+        })
+      }
+    );
+
+    const data = await res.json();
+
+    if(data.success){
+
+      showToast(
+        "Video Completed ✔",
+        "success"
+      );
+
+      const activeVideo =
+        document.getElementById(
+          "video-" + currentVideoId
+        );
+
+      if(activeVideo){
+
+        const badge =
+          activeVideo.querySelector(".badge");
+
+        if(badge){
+
+          badge.className =
+            "badge bg-success";
+
+          badge.innerText = "✔";
+
+        }
+
+      }
+
+    }else{
+
+      showToast(
+        "Failed to save progress",
+        "error"
+      );
+
+    }
+
+  }catch(err){
+
+    console.error(err);
+
+    showToast(
+      "Something went wrong",
+      "error"
+    );
+
+  }
+
 }
 
 // INIT
