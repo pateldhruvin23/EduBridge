@@ -147,7 +147,7 @@ router.post("/add-course", isAdmin, async (req, res) => {
     <div style="margin:35px 0;">
 
       <a
-        href="http://localhost:3000/course/${course.id}"
+      href="${process.env.BASE_URL}/course/${course.id}"
 
         style="
           background:#2563eb;
@@ -755,7 +755,7 @@ await sendEmail(
     <div style="margin:35px 0;">
 
       <a
-        href="http://localhost:3000/login"
+      href="${process.env.BASE_URL}/login"
 
         style="
           background:#2563eb;

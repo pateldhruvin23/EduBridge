@@ -572,7 +572,7 @@ router.post("/forgot-password", async (req, res) => {
     );
 
     // 📧 EMAIL
-sendEmail(
+await sendEmail(
   user.email,
   "Reset your EduBridge password",
 
@@ -592,7 +592,7 @@ sendEmail(
     <div style="margin:35px 0;">
 
       <a
-        href="http://localhost:3000/reset-password/${token}"
+       href="${process.env.BASE_URL}/reset-password/${token}"
 
         style="
           background:#2563eb;
@@ -844,7 +844,7 @@ router.post("/submit-unblock-request", async (req,res)=>{
     );
 
     // EMAIL
-    sendEmail(
+    await sendEmail(
       user.email,
       "Unblock Request Submitted",
       `

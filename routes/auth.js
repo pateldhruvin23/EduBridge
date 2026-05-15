@@ -82,7 +82,7 @@ RETURNING *`,
     const user = result.rows[0];
 
     // 📧 SEND VERIFICATION EMAIL
-sendEmail(
+await sendEmail(
   user.email,
   "Verify your EduBridge account",
 
@@ -112,7 +112,7 @@ sendEmail(
     <div style="margin:35px 0;">
 
       <a
-        href="http://localhost:3000/verify/${token}"
+        href="${process.env.BASE_URL}/verify/${token}"
 
         style="
           background:#2563eb;
@@ -169,7 +169,7 @@ router.get("/verify/:token", async (req, res) => {
 
     const user = result.rows[0];
 // 🎉 WELCOME EMAIL
-sendEmail(
+await sendEmail(
   user.email,
   "Welcome to EduBridge",
 
