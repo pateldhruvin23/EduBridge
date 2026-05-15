@@ -16,32 +16,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Session
-// app.use(
-//   session({
-
-//     store: new pgSession({
-//       conString: process.env.DATABASE_URL
-//     }),
-
-//     secret: process.env.SESSION_SECRET || "secret123",
-
-//     resave: false,
-
-//     saveUninitialized: false,
-
-//     cookie: {
-
-//       maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
-
-//       httpOnly: true,
-
-//     secure: true,
-
-//       sameSite: "lax"
-//     }
-
-//   })
-// );
 app.use(
   session({
 
@@ -57,18 +31,44 @@ app.use(
 
     cookie: {
 
-      maxAge: 1000 * 60 * 60 * 24 * 365,
+      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
 
       httpOnly: true,
 
-      // ✅ IMPORTANT FIX
-      secure: process.env.NODE_ENV === "production",
+    secure: true,
 
       sameSite: "lax"
     }
 
   })
 );
+// app.use(
+//   session({
+
+//     store: new pgSession({
+//       conString: process.env.DATABASE_URL
+//     }),
+
+//     secret: process.env.SESSION_SECRET || "secret123",
+
+//     resave: false,
+
+//     saveUninitialized: false,
+
+//     cookie: {
+
+//       maxAge: 1000 * 60 * 60 * 24 * 365,
+
+//       httpOnly: true,
+
+//       // ✅ IMPORTANT FIX
+//       secure: process.env.NODE_ENV === "production",
+
+//       sameSite: "lax"
+//     }
+
+//   })
+// );
 // View Engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
