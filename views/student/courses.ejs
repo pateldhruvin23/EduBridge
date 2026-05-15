@@ -1,9 +1,22 @@
 <style>
 
+*{
+  -webkit-tap-highlight-color:transparent;
+}
+
 body{
   background:#f1f5f9;
   font-family:'Poppins',sans-serif;
   color:#0f172a;
+  overflow-x:hidden;
+}
+
+/* =========================
+   PAGE CONTAINER
+========================= */
+
+.page-wrapper{
+  padding:20px;
 }
 
 /* =========================
@@ -16,63 +29,105 @@ body{
     #2563eb,
     #1e3a8a
   );
-  border-radius:30px;
+
+  border-radius:32px;
+
   padding:35px;
+
   color:white;
+
   margin-bottom:35px;
+
   position:relative;
+
   overflow:hidden;
-  box-shadow:0 20px 50px rgba(37,99,235,0.25);
+
+  box-shadow:
+    0 20px 50px rgba(37,99,235,0.25);
+
+  min-height:180px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
 .page-header::before{
   content:"";
   position:absolute;
+
   width:280px;
   height:280px;
+
   background:rgba(255,255,255,0.08);
+
   border-radius:50%;
+
   right:-80px;
   top:-80px;
 }
 
 .page-title{
-  font-size:34px;
-  font-weight:700;
+  font-size:36px;
+  font-weight:800;
   margin-bottom:8px;
+  position:relative;
+  z-index:2;
 }
 
 .page-subtitle{
-  opacity:0.85;
+  opacity:0.9;
   margin:0;
+  font-size:15px;
+  position:relative;
+  z-index:2;
 }
 
 /* =========================
-   NOTIFICATION BUTTON
+   TOP ACTIONS
 ========================= */
 
 .top-actions{
   position:absolute;
-  top:30px;
-  right:30px;
+  top:28px;
+  right:28px;
+  z-index:5;
 }
 
 .bell-btn{
-  width:55px;
-  height:55px;
+  width:58px;
+  height:58px;
+
   border:none;
-  border-radius:18px;
+
+  border-radius:20px;
+
   background:rgba(255,255,255,0.18);
-  backdrop-filter:blur(10px);
+
+  backdrop-filter:blur(12px);
+
   color:white;
+
   font-size:20px;
+
   position:relative;
+
   transition:0.3s;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  touch-action:manipulation;
 }
 
 .bell-btn:hover{
   transform:translateY(-3px);
   background:rgba(255,255,255,0.28);
+}
+
+.bell-btn:active{
+  transform:scale(0.95);
 }
 
 /* =========================
@@ -85,21 +140,61 @@ body{
 }
 
 /* =========================
+   OVERLAY
+========================= */
+
+.panel-overlay{
+  position:fixed;
+  inset:0;
+
+  background:rgba(15,23,42,0.45);
+
+  z-index:9998;
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:0.3s;
+}
+
+.panel-overlay.show{
+  opacity:1;
+  visibility:visible;
+}
+
+/* =========================
    NOTIFICATION PANEL
 ========================= */
 
 .notification-panel{
   position:fixed;
+
   top:0;
   left:-380px;
+
   width:360px;
-  height:100vh;
+  max-width:100%;
+
+  height:100dvh;
+
   background:white;
+
   z-index:9999;
-  padding:25px;
-  transition:0.4s;
+
+  padding:24px;
+
+  transition:0.35s ease;
+
   overflow-y:auto;
-  box-shadow:10px 0 40px rgba(0,0,0,0.1);
+
+  box-shadow:
+    10px 0 40px rgba(0,0,0,0.12);
+
+  scrollbar-width:none;
+}
+
+.notification-panel::-webkit-scrollbar{
+  display:none;
 }
 
 .notification-panel.show{
@@ -110,23 +205,34 @@ body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:20px;
+  margin-bottom:24px;
 }
 
 .close-btn{
-  width:40px;
-  height:40px;
-  border-radius:12px;
+  width:42px;
+  height:42px;
+
+  border-radius:14px;
+
   background:#f1f5f9;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   cursor:pointer;
+
   transition:0.3s;
+
+  touch-action:manipulation;
 }
 
 .close-btn:hover{
   background:#e2e8f0;
+}
+
+.close-btn:active{
+  transform:scale(0.94);
 }
 
 /* =========================
@@ -135,18 +241,33 @@ body{
 
 .notification-item{
   background:#f8fafc;
-  border-radius:18px;
+
+  border-radius:20px;
+
   padding:16px;
+
   margin-bottom:14px;
+
   transition:0.3s;
+
   border:1px solid #e2e8f0;
+
   cursor:pointer;
+
+  touch-action:manipulation;
 }
 
 .notification-item:hover{
   background:white;
+
   transform:translateY(-2px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.05);
+}
+
+.notification-item:active{
+  transform:scale(0.98);
 }
 
 .notification-unread{
@@ -159,18 +280,28 @@ body{
 
 .course-card{
   background:white;
-  border-radius:28px;
+
+  border-radius:30px;
+
   overflow:hidden;
+
   position:relative;
+
   transition:0.35s;
+
   border:none;
+
   height:100%;
-  box-shadow:0 10px 30px rgba(0,0,0,0.06);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.06);
 }
 
 .course-card:hover{
   transform:translateY(-8px);
-  box-shadow:0 20px 45px rgba(0,0,0,0.12);
+
+  box-shadow:
+    0 20px 45px rgba(0,0,0,0.12);
 }
 
 /* =========================
@@ -185,8 +316,11 @@ body{
 .course-thumb{
   width:100%;
   height:220px;
-  object-fit:contain;
-  border-radius:18px;
+
+  object-fit:cover;
+
+  border-radius:20px;
+
   background:white;
 }
 
@@ -203,17 +337,21 @@ body{
   font-weight:700;
   margin-bottom:12px;
   color:#0f172a;
+  line-height:1.4;
 }
 
 /* =========================
-   BADGE
+   BADGES
 ========================= */
 
 .badge-modern{
   background:#dcfce7;
   color:#166534;
+
   padding:7px 12px;
+
   border-radius:12px;
+
   font-size:13px;
   font-weight:600;
 }
@@ -224,8 +362,11 @@ body{
 
 .progress{
   height:10px;
+
   border-radius:20px;
+
   background:#e2e8f0;
+
   overflow:hidden;
 }
 
@@ -235,6 +376,7 @@ body{
     #22c55e,
     #16a34a
   );
+
   border-radius:20px;
 }
 
@@ -243,18 +385,26 @@ body{
 ========================= */
 
 .btn-modern{
-  border-radius:16px;
-  padding:12px;
+  border-radius:18px;
+
+  padding:13px;
+
   font-weight:600;
+
   transition:0.3s;
+
+  border:none;
+
+  touch-action:manipulation;
 }
 
 .btn-modern:hover{
-  transform:scale(1.02);
+  transform:translateY(-2px);
 }
 
-
-
+.btn-modern:active{
+  transform:scale(0.98);
+}
 
 /* =========================
    EMPTY
@@ -262,10 +412,15 @@ body{
 
 .empty-box{
   background:white;
-  border-radius:24px;
-  padding:60px 20px;
+
+  border-radius:28px;
+
+  padding:70px 20px;
+
   text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.05);
 }
 
 /* =========================
@@ -274,27 +429,443 @@ body{
 
 @media(max-width:768px){
 
+  .page-wrapper{
+    padding:14px;
+  }
+
   .page-header{
     padding:28px 22px;
+    border-radius:28px;
+    min-height:auto;
   }
 
   .page-title{
-    font-size:28px;
+    font-size:30px;
+    padding-right:70px;
+  }
+
+  .page-subtitle{
+    font-size:14px;
+    line-height:1.6;
+    padding-right:20px;
   }
 
   .top-actions{
-    position:static;
-    margin-top:20px;
+    top:22px;
+    right:22px;
+  }
+
+  .bell-btn{
+    width:52px;
+    height:52px;
+    border-radius:18px;
   }
 
   .notification-panel{
     width:100%;
     left:-100%;
+    border-radius:0;
+  }
+
+  .course-card{
+    border-radius:26px;
+  }
+
+  .course-thumb{
+    height:200px;
+  }
+
+  .course-body{
+    padding:20px;
+  }
+
+  .course-title{
+    font-size:20px;
+  }
+
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media(max-width:480px){
+
+  .page-wrapper{
+    padding:10px;
+  }
+
+  /* =========================
+     HEADER
+  ========================= */
+
+  .page-header{
+
+    padding:22px 18px;
+
+    border-radius:26px;
+
+    margin-bottom:18px;
+
+    min-height:auto;
+
+    box-shadow:
+      0 12px 35px rgba(37,99,235,0.22);
+
+  }
+
+  .page-title{
+
+    font-size:24px;
+
+    margin-bottom:5px;
+
+    font-weight:800;
+
+    letter-spacing:-0.5px;
+
+  }
+
+  .page-subtitle{
+
+    font-size:11px;
+
+    opacity:0.92;
+
+    line-height:1.5;
+
+  }
+
+  .top-actions{
+
+    top:16px;
+    right:16px;
+
+  }
+
+  .bell-btn{
+
+    width:44px;
+    height:44px;
+
+    border-radius:15px;
+
+    font-size:16px;
+
+    backdrop-filter:blur(14px);
+
+  }
+
+  /* =========================
+     GRID
+  ========================= */
+
+  .row{
+
+    --bs-gutter-x:12px;
+    --bs-gutter-y:12px;
+
+  }
+
+  .col-6{
+    padding-left:6px;
+    padding-right:6px;
+  }
+
+  /* =========================
+     COURSE CARD
+  ========================= */
+
+  .course-card{
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    background:white;
+
+    border:1px solid #edf2f7;
+
+    cursor:pointer;
+
+    transition:0.25s ease;
+
+    box-shadow:
+      0 6px 20px rgba(15,23,42,0.06);
+
+  }
+
+  .course-card:active{
+
+    transform:scale(0.97);
+
+  }
+
+  /* =========================
+     IMAGE
+  ========================= */
+
+  .course-thumb-wrapper{
+
+    padding:6px;
+
+    background:#f8fafc;
+
+  }
+
+  .course-thumb{
+
+    width:100%;
+
+    height:110px;
+
+    object-fit:cover;
+
+    border-radius:16px;
+
+    display:block;
+
+  }
+
+  /* =========================
+     BODY
+  ========================= */
+
+  .course-body{
+
+    padding:10px;
+
+  }
+
+  /* =========================
+     TITLE
+  ========================= */
+
+  .course-title{
+
+    font-size:12px;
+
+    line-height:1.45;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+    color:#0f172a;
+
+    display:-webkit-box;
+
+    -webkit-line-clamp:2;
+
+    -webkit-box-orient:vertical;
+
+    overflow:hidden;
+
+    min-height:36px;
+
+  }
+
+  /* =========================
+     ENROLLED BADGE
+  ========================= */
+
+  .badge-modern{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+    font-size:9px;
+
+    padding:4px 8px;
+
+    border-radius:999px;
+
+    font-weight:700;
+
+    margin-bottom:8px !important;
+
+  }
+
+  .badge{
+
+    font-size:9px !important;
+
+    padding:4px 7px !important;
+
+    border-radius:999px !important;
+
+  }
+
+  /* =========================
+     REMOVE DESKTOP PROGRESS
+  ========================= */
+
+  .progress{
+    display:none !important;
+  }
+
+  /* =========================
+     MODERN PROGRESS BOX
+  ========================= */
+
+  .course-progress-text{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:#f8fafc;
+
+    border:1px solid #e2e8f0;
+
+    border-radius:12px;
+
+    padding:7px 9px;
+
+    margin-top:6px;
+
+    font-size:9px;
+
+    color:#475569;
+
+    font-weight:600;
+
+  }
+
+  .course-progress-text .fw-semibold{
+
+    color:#2563eb;
+
+    font-size:10px;
+
+    font-weight:800 !important;
+
+  }
+
+  /* =========================
+     BUTTON
+  ========================= */
+
+  .btn-modern{
+
+    width:100%;
+
+    border-radius:14px;
+
+    padding:9px 8px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    margin-top:8px;
+
+    box-shadow:none !important;
+
+  }
+
+  .btn-modern:active{
+
+    transform:scale(0.97);
+
+  }
+
+  /* =========================
+     BUTTON TEXT
+  ========================= */
+
+  .btn-modern{
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+  }
+
+  /* =========================
+     REMOVE EXTRA SPACE
+  ========================= */
+
+  .course-body .mt-4{
+
+    margin-top:10px !important;
+
+  }
+
+  .mb-3{
+
+    margin-bottom:8px !important;
+
+  }
+
+  /* =========================
+     SMALL TEXT
+  ========================= */
+
+  small.text-muted{
+
+    font-size:9px;
+
+    color:#64748b !important;
+
+  }
+
+  /* =========================
+     NOTIFICATION PANEL
+  ========================= */
+
+  .notification-panel{
+
+    width:100%;
+
+    left:-100%;
+
+    border-radius:0;
+
+  }
+
+  .notification-item{
+
+    border-radius:16px;
+
+    padding:14px;
+
+  }
+
+  /* =========================
+     EMPTY BOX
+  ========================= */
+
+  .empty-box{
+
+    border-radius:24px;
+
+    padding:50px 16px;
+
+  }
+
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media(min-width:769px) and (max-width:1024px){
+
+  .course-thumb{
+    height:210px;
   }
 
 }
 
 </style>
+
+<div class="page-wrapper">
 
 <!-- =========================
      HEADER
@@ -318,7 +889,10 @@ body{
 
   <div class="top-actions">
 
-    <button class="bell-btn" onclick="togglePanel()">
+    <button
+      class="bell-btn"
+      onclick="togglePanel()"
+    >
 
       <i class="bi bi-bell-fill"></i>
 
@@ -342,10 +916,23 @@ body{
 </div>
 
 <!-- =========================
+     OVERLAY
+========================= -->
+
+<div
+  id="panelOverlay"
+  class="panel-overlay"
+  onclick="togglePanel()"
+></div>
+
+<!-- =========================
      NOTIFICATION PANEL
 ========================= -->
 
-<div id="notificationPanel" class="notification-panel">
+<div
+  id="notificationPanel"
+  class="notification-panel"
+>
 
   <div class="panel-header">
 
@@ -353,7 +940,10 @@ body{
       🔔 Notifications
     </h4>
 
-    <div class="close-btn" onclick="togglePanel()">
+    <div
+      class="close-btn"
+      onclick="togglePanel()"
+    >
       <i class="bi bi-x-lg"></i>
     </div>
 
@@ -406,11 +996,21 @@ body{
 
   <% courses.forEach(course => { %>
 
-    <div class="col-xl-4 col-md-6 mb-4">
+<div class="col-6 col-md-6 col-xl-4 mb-3">
 
-      <div class="course-card">
+     <div
+  class="course-card"
 
-       
+  <% if(enrolledIds.includes(course.id)){ %>
+
+    onclick="
+      if(window.innerWidth <= 480){
+        window.location='/course/<%= course.id %>';
+      }
+    "
+
+  <% } %>
+>
 
         <!-- IMAGE -->
 
@@ -430,21 +1030,22 @@ body{
           <h5 class="course-title">
             <%= course.title %>
           </h5>
-          <!-- XP BADGE -->
 
-<% if(course.is_premium){ %>
+          <!-- XP -->
 
-  <div class="mb-2">
+          <% if(course.is_premium){ %>
 
-    <span class="badge bg-warning text-dark px-3 py-2">
+            <div class="mb-3">
 
-      🏆 <%= course.xp_required %> XP Required
+              <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">
 
-    </span>
+                🏆 <%= course.xp_required %> XP Required
 
-  </div>
+              </span>
 
-<% } %>
+            </div>
+
+          <% } %>
 
           <% if(enrolledIds.includes(course.id)){ %>
 
@@ -452,20 +1053,19 @@ body{
               ✔ Enrolled
             </span>
 
-            <!-- PROGRESS -->
+           <!-- PROGRESS -->
 
-            <div class="progress mb-2">
+<div class="course-progress-text">
 
-              <div
-                class="progress-bar"
-                style="width:<%= progressMap[course.id] %>%"
-              ></div>
+  <span>
+    📈 Progress
+  </span>
 
-            </div>
+  <span class="fw-semibold">
+    <%= progressMap[course.id] %>%
+  </span>
 
-            <small class="text-muted">
-              <%= progressMap[course.id] %>% Completed
-            </small>
+</div>
 
           <% } %>
 
@@ -484,62 +1084,68 @@ body{
 
               <% if(course.is_premium){ %>
 
-  <% if(user.xp >= course.xp_required){ %>
+                <% if(user.xp >= course.xp_required){ %>
 
-    <form method="POST" action="/unlock-course">
+                  <form
+                    method="POST"
+                    action="/unlock-course"
+                  >
 
-      <input
-        type="hidden"
-        name="courseId"
-        value="<%= course.id %>"
-      >
+                    <input
+                      type="hidden"
+                      name="courseId"
+                      value="<%= course.id %>"
+                    >
 
-      <button
-        class="btn btn-warning btn-modern w-100"
-      >
+                    <button
+                      class="btn btn-warning btn-modern w-100"
+                    >
 
-        🏆 Unlock For
-        <%= course.xp_required %> XP
+                      🏆 Unlock For
+                      <%= course.xp_required %> XP
 
-      </button>
+                    </button>
 
-    </form>
+                  </form>
 
-  <% } else { %>
+                <% } else { %>
 
-    <button
-      class="btn btn-secondary btn-modern w-100"
-      disabled
-    >
+                  <button
+                    class="btn btn-secondary btn-modern w-100"
+                    disabled
+                  >
 
-      🔒 Need
-      <%= course.xp_required %> XP
+                    🔒 Need
+                    <%= course.xp_required %> XP
 
-    </button>
+                  </button>
 
-  <% } %>
+                <% } %>
 
-<% } else { %>
+              <% } else { %>
 
-  <form method="POST" action="/enroll">
+                <form
+                  method="POST"
+                  action="/enroll"
+                >
 
-    <input
-      type="hidden"
-      name="courseId"
-      value="<%= course.id %>"
-    >
+                  <input
+                    type="hidden"
+                    name="courseId"
+                    value="<%= course.id %>"
+                  >
 
-    <button
-      class="btn btn-success btn-modern w-100"
-    >
+                  <button
+                    class="btn btn-success btn-modern w-100"
+                  >
 
-      🎟️ Enroll Now
+                    🎟️ Enroll Now
 
-    </button>
+                  </button>
 
-  </form>
+                </form>
 
-<% } %>
+              <% } %>
 
             <% } %>
 
@@ -575,66 +1181,107 @@ body{
 
 </div>
 
+</div>
+
 <script>
 
 function togglePanel(){
 
-  document
-    .getElementById("notificationPanel")
-    .classList
-    .toggle("show");
+  const panel =
+    document.getElementById(
+      "notificationPanel"
+    );
+
+  const overlay =
+    document.getElementById(
+      "panelOverlay"
+    );
+
+  panel.classList.toggle("show");
+
+  overlay.classList.toggle("show");
 
 }
 
 async function markAsRead(el,id){
 
-  const res = await fetch("/mark-read",{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json"
-    },
-    body:JSON.stringify({
-      notificationId:id
-    })
-  });
+  try{
 
-  const data = await res.json();
+    const res = await fetch("/mark-read",{
 
-  if(data.success){
+      method:"POST",
 
-    el.classList.remove(
-      "notification-unread"
-    );
+      headers:{
+        "Content-Type":"application/json"
+      },
 
-    const badge =
-      el.querySelector("small");
+      body:JSON.stringify({
+        notificationId:id
+      })
 
-    if(badge) badge.remove();
+    });
 
-    const countEl =
-      document.getElementById(
-        "notifCount"
+    const data = await res.json();
+
+    if(data.success){
+
+      el.classList.remove(
+        "notification-unread"
       );
 
-    if(countEl){
+      const badge =
+        el.querySelector("small");
 
-      let count =
-        parseInt(countEl.innerText);
+      if(badge){
+        badge.remove();
+      }
 
-      count--;
+      const countEl =
+        document.getElementById(
+          "notifCount"
+        );
 
-      if(count <= 0){
-        countEl.remove();
-      }else{
-        countEl.innerText = count;
+      if(countEl){
+
+        let count =
+          parseInt(countEl.innerText);
+
+        count--;
+
+        if(count <= 0){
+
+          countEl.remove();
+
+        }else{
+
+          countEl.innerText = count;
+
+        }
+
       }
 
     }
+
+  }catch(err){
+
+    console.error(err);
 
   }
 
 }
 
+/* TOUCH SUPPORT */
 
+document.querySelectorAll(
+  "button, a, .notification-item"
+).forEach(el => {
+
+  el.addEventListener(
+    "touchstart",
+    () => {},
+    { passive:true }
+  );
+
+});
 
 </script>

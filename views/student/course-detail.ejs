@@ -1,38 +1,78 @@
 <style>
-.video-card { background:#1e293b; border-radius:12px; }
-.video-item {
+
+body{
+  background:#f1f5f9;
+  font-family:'Poppins',sans-serif;
+}
+
+/* =========================
+   DESKTOP KEEP SAME
+========================= */
+
+.video-card{
+  background:#1e293b;
+  border-radius:18px;
+}
+
+.video-item{
   background:#1e293b;
   border-radius:8px;
   cursor:pointer;
   transition:0.2s;
   color:white;
 }
-.video-item:hover { background:#334155; }
-.video-item.active { background:#2563eb; }
-.video-thumb { width:80px; border-radius:6px; }
-.notes-card { background:#1e293b; border-radius:10px; }
 
-.toast-box {
-  position: fixed;
-  top: 20px;
-  right: -300px;
-  padding: 12px 18px;
-  border-radius: 8px;
-  color: white;
-  font-weight: 500;
-  transition: 0.3s;
-  z-index: 9999;
+.video-item:hover{
+  background:#334155;
 }
-.toast-box.show { right: 20px; }
-.toast-box.success { background: #22c55e; }
-.toast-box.error { background: #ef4444; }
-.toast-box.warning { background: #f59e0b; }
+
+.video-item.active{
+  background:#2563eb;
+}
+
+.video-thumb{
+  width:80px;
+  border-radius:6px;
+}
+
+.notes-card{
+  background:#1e293b;
+  border-radius:22px;
+}
+
+.toast-box{
+  position:fixed;
+  top:20px;
+  right:-300px;
+  padding:12px 18px;
+  border-radius:10px;
+  color:white;
+  font-weight:500;
+  transition:0.3s;
+  z-index:9999;
+}
+
+.toast-box.show{
+  right:20px;
+}
+
+.toast-box.success{
+  background:#22c55e;
+}
+
+.toast-box.error{
+  background:#ef4444;
+}
+
+.toast-box.warning{
+  background:#f59e0b;
+}
 
 .youtube-frame{
   width:100%;
   height:100%;
   border:none;
-  border-radius:12px;
+  border-radius:18px;
 }
 
 .playlist-item:hover{
@@ -66,7 +106,7 @@
 
 .quiz-card{
   background:#0f172a;
-  border-radius:18px;
+  border-radius:22px;
   overflow:hidden;
   border:1px solid rgba(255,255,255,0.06);
 }
@@ -103,12 +143,13 @@
   font-size:18px;
   font-weight:600;
   margin-bottom:22px;
+  line-height:1.6;
 }
 
 .quiz-option{
   width:100%;
   border:none;
-  border-radius:14px;
+  border-radius:16px;
   padding:14px 18px;
   margin-bottom:12px;
   background:#1e293b;
@@ -120,7 +161,6 @@
 
 .quiz-option:hover{
   background:#334155;
-  transform:translateX(3px);
 }
 
 .quiz-option.correct{
@@ -169,6 +209,771 @@
   margin-top:15px;
 }
 
+/* =========================
+   MOBILE APP UI
+========================= */
+
+@media(max-width:768px){
+
+  body{
+    background:#eef2f7;
+  }
+
+  h4.fw-bold{
+    font-size:18px !important;
+    margin-bottom:14px !important;
+  }
+
+  /* VIDEO */
+
+  .video-card{
+
+    border-radius:22px !important;
+
+    padding:8px !important;
+
+    overflow:hidden;
+
+    box-shadow:
+      0 8px 24px rgba(15,23,42,0.08);
+
+  }
+
+  .youtube-frame{
+    border-radius:16px !important;
+  }
+
+  /* BUTTON */
+
+  .btn{
+
+    border-radius:14px !important;
+
+    font-size:13px !important;
+
+    font-weight:600 !important;
+
+    height:46px;
+
+  }
+
+  /* QUIZ */
+
+  .quiz-card{
+
+    border-radius:22px !important;
+
+    overflow:hidden;
+
+  }
+
+  .quiz-header{
+
+    padding:14px 16px !important;
+
+  }
+
+  .quiz-title{
+    font-size:15px !important;
+  }
+
+  .quiz-timer{
+    font-size:13px !important;
+  }
+
+  .quiz-body{
+    padding:16px !important;
+  }
+
+  .quiz-question{
+
+    font-size:15px !important;
+
+    line-height:1.5;
+
+    margin-bottom:16px !important;
+
+  }
+
+  .quiz-option{
+
+    border-radius:14px !important;
+
+    padding:12px 14px !important;
+
+    font-size:13px !important;
+
+    margin-bottom:10px !important;
+
+  }
+
+  .code-editor{
+
+    min-height:180px;
+
+    border-radius:14px !important;
+
+    font-size:13px !important;
+
+    padding:14px !important;
+
+  }
+
+  /* DISCUSSION */
+
+  .notes-card{
+
+    border-radius:22px !important;
+
+    padding:16px !important;
+
+    box-shadow:
+      0 6px 24px rgba(15,23,42,0.06);
+
+  }
+
+  .notes-card h5{
+    font-size:16px !important;
+  }
+
+  textarea.form-control{
+
+    border-radius:14px !important;
+
+    font-size:13px !important;
+
+    padding:12px !important;
+
+  }
+
+  .comment-item{
+
+    border-radius:18px !important;
+
+    padding:14px !important;
+
+  }
+
+  .comment-item .text-white{
+    font-size:13px !important;
+    line-height:1.6;
+  }
+
+  .comment-item .small{
+    font-size:10px !important;
+  }
+
+  /* PLAYLIST */
+
+  .playlist-card{
+
+    border-radius:22px !important;
+
+    padding:16px !important;
+
+    margin-top:2px;
+
+  }
+
+  .playlist-card h5{
+    font-size:16px !important;
+  }
+
+  .playlist-item{
+
+    border-radius:18px !important;
+
+    padding:10px !important;
+
+    margin-bottom:12px !important;
+
+  }
+
+  .playlist-item img{
+
+    width:95px !important;
+
+    height:62px !important;
+
+    border-radius:12px !important;
+
+  }
+
+  .playlist-item .fw-semibold{
+
+    font-size:13px !important;
+
+    line-height:1.5;
+
+  }
+
+  .playlist-item .small{
+
+    font-size:10px !important;
+
+  }
+
+  /* NOTES */
+
+  .notes-card a{
+
+    padding:12px !important;
+
+    border-radius:14px !important;
+
+  }
+
+  .notes-card a .fw-semibold{
+    font-size:13px !important;
+  }
+
+  .notes-card small{
+    font-size:10px !important;
+  }
+
+  /* BADGES */
+
+  .badge{
+
+    font-size:10px !important;
+
+    padding:7px 10px !important;
+
+    border-radius:10px !important;
+
+  }
+
+  /* AVATAR */
+
+  .rounded-circle{
+
+    width:40px !important;
+    height:40px !important;
+    min-width:40px !important;
+
+    font-size:13px !important;
+
+  }
+
+  /* REPORT BUTTON */
+
+  .btn-outline-danger.rounded-circle{
+
+    width:34px !important;
+    height:34px !important;
+
+    padding:0 !important;
+
+  }
+
+  /* SPACING */
+
+  .mb-4{
+    margin-bottom:14px !important;
+  }
+
+  .mb-3{
+    margin-bottom:12px !important;
+  }
+
+  .p-4{
+    padding:16px !important;
+  }
+
+  .gap-3{
+    gap:10px !important;
+  }
+
+}
+/* =========================
+   DISCUSSION UI
+========================= */
+/* =========================
+   MODERN DISCUSSION UI
+========================= */
+
+.discussion-card{
+
+  background:#0f172a !important;
+
+  border-radius:28px;
+
+  border:none !important;
+
+  box-shadow:
+    0 10px 30px rgba(2,6,23,0.35);
+
+}
+
+/* HEADER */
+
+.discussion-header{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  margin-bottom:22px;
+
+}
+
+.discussion-title{
+
+  color:white;
+
+  font-size:20px;
+  font-weight:700;
+
+  margin-bottom:3px;
+
+}
+
+.discussion-subtitle{
+
+  color:#94a3b8;
+
+  font-size:12px;
+
+}
+
+.discussion-count{
+
+  min-width:42px;
+  height:42px;
+
+  padding:0 12px;
+
+  border-radius:14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
+
+  color:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-weight:700;
+
+  font-size:13px;
+
+}
+
+/* INPUT */
+
+.discussion-form{
+  margin-bottom:22px;
+}
+
+.discussion-input-wrap{
+
+  display:flex;
+  gap:12px;
+
+  align-items:flex-end;
+
+}
+
+.discussion-avatar{
+
+  width:44px;
+  height:44px;
+
+  min-width:44px;
+
+  border-radius:16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
+
+  color:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-weight:700;
+
+  box-shadow:
+    0 8px 20px rgba(37,99,235,0.25);
+
+}
+
+.discussion-input-box{
+
+  flex:1;
+
+  position:relative;
+
+}
+
+.discussion-textarea{
+
+  width:100%;
+
+  border:none;
+  outline:none;
+
+  resize:none;
+
+  background:#1e293b;
+
+  color:white;
+
+  border-radius:20px;
+
+  padding:14px 52px 14px 16px;
+
+  min-height:58px;
+
+  font-size:14px;
+
+}
+
+.discussion-textarea::placeholder{
+  color:#94a3b8;
+}
+.discussion-send-btn{
+
+  position:absolute;
+
+  right:8px;
+  bottom:9px;
+
+  width:42px;
+  height:42px;
+
+  border:none;
+  outline:none;
+
+  border-radius:14px;
+
+  background:linear-gradient(
+    135deg,
+    #2563eb,
+    #4f46e5
+  );
+
+  color:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  transition:0.25s ease;
+
+  box-shadow:
+    0 8px 18px rgba(37,99,235,0.30);
+
+}
+
+.discussion-send-btn:hover{
+
+  transform:translateY(-2px) scale(1.03);
+
+  box-shadow:
+    0 12px 24px rgba(37,99,235,0.40);
+
+}
+
+.discussion-send-btn:active{
+
+  transform:scale(0.96);
+
+}
+
+.discussion-send-btn i{
+
+  font-size:14px;
+
+}
+
+
+/* COMMENTS */
+
+.discussion-comments{
+
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+
+}
+
+/* CHAT CARD */
+
+.discussion-item{
+
+  background:#1e293b;
+
+  border-radius:22px;
+
+  padding:14px;
+
+  border:1px solid rgba(255,255,255,0.05);
+
+  transition:0.25s;
+
+}
+
+.discussion-item:hover{
+
+  transform:translateY(-2px);
+
+  background:#243244;
+
+}
+
+/* TOP */
+
+.discussion-top{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+
+  gap:10px;
+
+  margin-bottom:12px;
+
+}
+
+.discussion-user{
+
+  display:flex;
+  gap:12px;
+
+  flex:1;
+
+  min-width:0;
+
+}
+
+.discussion-name{
+
+  color:white;
+
+  font-weight:600;
+
+  font-size:14px;
+
+  line-height:1.3;
+
+}
+
+.discussion-time{
+
+  color:#94a3b8;
+
+  font-size:10px;
+
+  margin-top:3px;
+
+}
+
+/* MESSAGE */
+
+.discussion-message{
+
+  color:#e2e8f0;
+
+  line-height:1.7;
+
+  font-size:14px;
+
+  padding-left:56px;
+
+  word-break:break-word;
+
+}
+
+/* REPORT BUTTON */
+
+.discussion-report-btn{
+
+  width:34px;
+  height:34px;
+
+  min-width:34px;
+
+  border:none;
+
+  border-radius:12px;
+
+  background:#0f172a;
+
+  color:#ef4444;
+
+  transition:0.2s;
+
+}
+
+.discussion-report-btn:hover{
+
+  background:#ef4444;
+
+  color:white;
+
+}
+
+/* EMPTY */
+
+.discussion-empty{
+
+  text-align:center;
+
+  padding:36px 20px;
+
+  color:#94a3b8;
+
+}
+
+.discussion-empty i{
+  font-size:42px;
+}
+
+.discussion-empty p{
+  margin-top:12px;
+  margin-bottom:0;
+}
+
+/* =========================
+   MOBILE APP UI
+========================= */
+
+@media(max-width:768px){
+
+  .discussion-card{
+
+    border-radius:24px !important;
+
+    padding:16px !important;
+
+  }
+
+  .discussion-header{
+    margin-bottom:16px;
+  }
+
+  .discussion-title{
+
+    font-size:16px !important;
+
+  }
+
+  .discussion-subtitle{
+
+    font-size:10px !important;
+
+  }
+
+  .discussion-count{
+
+    min-width:36px;
+    height:36px;
+
+    border-radius:12px;
+
+    font-size:12px;
+
+  }
+
+  .discussion-avatar{
+
+    width:40px;
+    height:40px;
+
+    min-width:40px;
+
+    border-radius:14px;
+
+    font-size:13px;
+
+  }
+
+  .discussion-textarea{
+
+    min-height:54px;
+
+    border-radius:18px;
+
+    padding:12px 46px 12px 14px;
+
+    font-size:13px;
+
+  }
+.discussion-send-btn{
+
+  width:36px;
+  height:36px;
+
+  border-radius:12px;
+
+  right:7px;
+  bottom:9px;
+
+}
+
+.discussion-send-btn i{
+
+  font-size:12px;
+
+}
+
+  .discussion-item{
+
+    border-radius:18px;
+
+    padding:12px;
+
+  }
+
+  .discussion-name{
+
+    font-size:13px;
+
+  }
+
+  .discussion-time{
+
+    font-size:9px;
+
+  }
+
+  .discussion-message{
+
+    padding-left:52px;
+
+    font-size:13px;
+
+    line-height:1.6;
+
+  }
+
+  .discussion-report-btn{
+
+    width:30px;
+    height:30px;
+
+    min-width:30px;
+
+    border-radius:10px;
+
+    font-size:11px;
+
+  }
+
+}
 
 </style>
 
@@ -231,26 +1036,37 @@
 </div>
 
 <!-- COMMENTS -->
-<div class="notes-card p-4 mt-3">
+<!-- COMMENTS -->
+<div class="notes-card discussion-card p-4 mt-3">
 
   <!-- HEADER -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
 
-    <h5 class="text-white mb-0 fw-bold">
-      💬 Discussion & Doubts
-    </h5>
+  <div class="discussion-header">
 
-    <span class="badge bg-primary rounded-pill">
-      <%= comments.length %> Messages
-    </span>
+    <div>
+
+      <h5 class="discussion-title">
+        💬 Discussion & Doubts
+      </h5>
+
+      <div class="discussion-subtitle">
+        Ask doubts & connect with students
+      </div>
+
+    </div>
+
+    <div class="discussion-count">
+      <%= comments.length %>
+    </div>
 
   </div>
 
   <!-- COMMENT FORM -->
+
   <form
     method="POST"
     action="/comment"
-    class="mb-4"
+    class="discussion-form"
   >
 
     <input
@@ -259,41 +1075,33 @@
       value="<%= course.id %>"
     >
 
-    <div class="d-flex gap-2">
+    <div class="discussion-input-wrap">
 
-      <!-- USER AVATAR -->
-      <div
-        class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
-        style="width:45px;height:45px;min-width:45px;"
-      >
+      <!-- USER -->
+
+      <div class="discussion-avatar">
+
         <%= user.name.charAt(0).toUpperCase() %>
+
       </div>
 
-      <div class="flex-grow-1">
+      <!-- INPUT -->
+
+      <div class="discussion-input-box">
 
         <textarea
-          class="form-control border-0 shadow-none"
+          class="discussion-textarea"
           name="message"
           rows="2"
-          placeholder="Ask your doubt or discuss lesson..."
-          style="
-            border-radius:14px;
-            resize:none;
-            background:#f8fafc;
-          "
+          placeholder="Ask your doubt..."
           required
         ></textarea>
 
-        <div class="text-end mt-2">
-
-          <button
-            class="btn btn-primary px-4 rounded-pill"
-          >
-            <i class="bi bi-send-fill"></i>
-            Send
-          </button>
-
-        </div>
+        <button
+          class="discussion-send-btn"
+        >
+          <i class="bi bi-send-fill"></i>
+        </button>
 
       </div>
 
@@ -301,16 +1109,17 @@
 
   </form>
 
-  <!-- COMMENTS LIST -->
-  <div class="comment-list">
+  <!-- COMMENTS -->
+
+  <div class="discussion-comments">
 
     <% if(comments.length === 0){ %>
 
-      <div class="text-center text-light opacity-75 py-4">
+      <div class="discussion-empty">
 
-        <i class="bi bi-chat-square-text fs-1"></i>
+        <i class="bi bi-chat-square-text"></i>
 
-        <p class="mt-2 mb-0">
+        <p>
           No discussions yet
         </p>
 
@@ -320,53 +1129,42 @@
 
     <% comments.forEach(c => { %>
 
-      <div
-        class="comment-item mb-3 p-3"
-        style="
-          background:#0f172a;
-          border-radius:18px;
-          border:1px solid rgba(255,255,255,0.06);
-        "
-      >
+      <div class="discussion-item">
 
         <!-- TOP -->
-        <div class="d-flex justify-content-between align-items-start">
 
-          <div class="d-flex gap-3">
+        <div class="discussion-top">
+
+          <div class="discussion-user">
 
             <!-- AVATAR -->
-            <div
-              class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
-              style="width:45px;height:45px;min-width:45px;"
-            >
-              <%= (c.user_name || "U").charAt(0).toUpperCase() %>
+
+            <div class="discussion-avatar">
+
+              <%= (c.user_name || "U")
+              .charAt(0)
+              .toUpperCase() %>
+
             </div>
 
-            <!-- CONTENT -->
+            <!-- INFO -->
+
             <div>
 
-              <div class="text-white fw-semibold">
+              <div class="discussion-name">
 
                 <%= c.user_name || "Student" %>
 
               </div>
 
-              <div
-                class="small text-light opacity-75 mb-2"
-              >
+              <div class="discussion-time">
+
                 <i class="bi bi-clock"></i>
 
-                <%= new Date(c.created_at).toLocaleString() %>
-              </div>
+                <%= new Date(
+                  c.created_at
+                ).toLocaleString() %>
 
-              <div
-                class="text-white"
-                style="
-                  line-height:1.6;
-                  word-break:break-word;
-                "
-              >
-                <%= c.message %>
               </div>
 
             </div>
@@ -374,13 +1172,21 @@
           </div>
 
           <!-- REPORT -->
+
           <button
-            class="btn btn-sm btn-outline-danger rounded-circle"
+            class="discussion-report-btn"
             onclick="reportComment(<%= c.id %>)"
-            style="width:38px;height:38px;"
           >
             <i class="bi bi-flag"></i>
           </button>
+
+        </div>
+
+        <!-- MESSAGE -->
+
+        <div class="discussion-message">
+
+          <%= c.message %>
 
         </div>
 
@@ -607,70 +1413,82 @@ const prevPassed = prevVideo
     <% } %>
 
     <!-- FILES -->
-    <% notes.forEach(n => { %>
+<% notes.forEach(n => { %>
 
-      <a
-        href="/uploads/<%= n.file_url %>"
-        target="_blank"
+<a
+  href="https://edu-platform-rywx.onrender.com/uploads/<%= encodeURIComponent(n.file_url) %>"
+  
+  target="_blank"
+  rel="noopener noreferrer"
 
-        class="d-flex align-items-center justify-content-between
-        text-decoration-none text-white mb-3"
+  class="d-flex align-items-center justify-content-between
+  text-decoration-none text-white mb-3"
 
-        style="
-          background:#1e293b;
-          padding:14px;
-          border-radius:16px;
-          transition:0.25s;
-          border:1px solid transparent;
-        "
+  style="
+    background:#1e293b;
+    padding:14px;
+    border-radius:16px;
+    transition:0.25s;
+    border:1px solid transparent;
+  "
 
-        onmouseover="
-          this.style.background='#334155';
-          this.style.transform='translateY(-2px)';
-        "
+  onmouseover="
+    this.style.background='#334155';
+    this.style.transform='translateY(-2px)';
+  "
 
-        onmouseout="
-          this.style.background='#1e293b';
-          this.style.transform='translateY(0px)';
-        "
-      >
+  onmouseout="
+    this.style.background='#1e293b';
+    this.style.transform='translateY(0px)';
+  "
+>
 
-        <div class="d-flex align-items-center gap-3">
+  <div class="d-flex align-items-center gap-3">
 
-          <div
-            style="
-              width:45px;
-              height:45px;
-              border-radius:12px;
-              background:#2563eb;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              font-size:18px;
-            "
-          >
-            📄
-          </div>
+    <div
+      style="
+        width:45px;
+        height:45px;
+        border-radius:12px;
+        background:#2563eb;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:18px;
+      "
+    >
+      📄
+    </div>
 
-          <div>
+    <div>
 
-            <div class="fw-semibold">
-              <%= n.title %>
-            </div>
+      <div class="fw-semibold">
+        <%= n.title %>
+      </div>
 
-            <small style="color:#94a3b8;">
-              Study Material
-            </small>
+      <small style="color:#94a3b8;">
 
-          </div>
+        <% if(n.file_url.toLowerCase().endsWith('.pdf')) { %>
 
-        </div>
+          PDF Document
 
-        <i class="bi bi-download"></i>
+        <% } else { %>
 
-      </a>
+          Study Material
 
-    <% }) %>
+        <% } %>
+
+      </small>
+
+    </div>
+
+  </div>
+
+  <i class="bi bi-download"></i>
+
+</a>
+
+<% }) %>
 
   </div>
 

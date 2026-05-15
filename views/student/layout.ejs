@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 
   <title>Student Panel</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
   <!-- Bootstrap -->
   <link
@@ -24,29 +29,69 @@
     rel="stylesheet"
   >
 
-
-<!-- TweenMax REQUIRED -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
-
-
-<script src="https://cdn.jsdelivr.net/gh/zarocknz/javascript-winwheel@master/Winwheel.min.js"></script>
-<!-- GSAP -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-
-<!-- Confetti -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
 
     *{
       margin:0;
       padding:0;
       box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    html,
+    body{
+      width:100%;
+      min-height:100%;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
     }
 
     body{
-      background:#f8fafc;
       font-family:'Poppins',sans-serif;
+      background:#f1f5f9;
+      color:#0f172a;
       overflow-x:hidden;
+    }
+
+    a{
+      text-decoration:none;
+    }
+
+    /* =========================
+       APP
+    ========================= */
+
+    .app{
+      display:flex;
+      min-height:100vh;
+      width:100%;
+    }
+
+    /* =========================
+       SIDEBAR OVERLAY
+    ========================= */
+
+    .sidebar-overlay{
+
+      position:fixed;
+      inset:0;
+
+      background:rgba(15,23,42,0.55);
+
+      backdrop-filter:blur(5px);
+
+      z-index:1100;
+
+      opacity:0;
+      visibility:hidden;
+
+      transition:0.3s ease;
+
+    }
+
+    .sidebar-overlay.show{
+      opacity:1;
+      visibility:visible;
     }
 
     /* =========================
@@ -54,58 +99,165 @@
     ========================= */
 
     .sidebar{
-      width:260px;
-      height:100vh;
+
       position:fixed;
-      left:0;
       top:0;
-      background:linear-gradient(
-        180deg,
-        #0f172a,
-        #111827
-      );
-      padding:25px 18px;
-      z-index:1000;
+      left:-100%;
+
+      width:290px;
+      height:100vh;
+
+      background:
+        linear-gradient(
+          180deg,
+          #0f172a,
+          #111827
+        );
+
+      z-index:1200;
+
+      padding:
+        max(20px, env(safe-area-inset-top))
+        18px
+        25px;
+
       overflow-y:auto;
+
+      transition:0.3s ease;
+
+      border-top-right-radius:30px;
+      border-bottom-right-radius:30px;
+
+      box-shadow:
+        0 25px 60px rgba(0,0,0,0.35);
+
+    }
+
+    .sidebar.show{
+      left:0;
+    }
+
+    /* =========================
+       LOGO
+    ========================= */
+
+    .logo-box{
+      text-align:center;
+      margin-bottom:35px;
+    } 
+
+    .logo-icon{
+
+      width:82px;
+      height:82px;
+
+      margin:auto auto 16px;
+
+      border-radius:24px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      font-size:34px;
+
+      color:white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      box-shadow:
+        0 15px 35px rgba(37,99,235,0.35);
+
     }
 
     .logo{
       color:white;
-      font-size:26px;
+      font-size:30px;
       font-weight:700;
-      text-align:center;
-      margin-bottom:35px;
     }
+
+    .logo-subtitle{
+      color:#94a3b8;
+      font-size:13px;
+      margin-top:5px;
+    }
+
+    /* =========================
+       SIDEBAR MENU
+    ========================= */
 
     .sidebar-menu{
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:10px;
     }
 
     .sidebar-menu a{
-      color:#cbd5e1;
-      text-decoration:none;
-      padding:14px 16px;
-      border-radius:14px;
-      transition:0.3s;
+
       display:flex;
       align-items:center;
-      gap:12px;
-      font-weight:500;
+      gap:14px;
+
+      padding:16px 18px;
+
+      border-radius:18px;
+
+      color:#cbd5e1;
+
       font-size:15px;
+      font-weight:500;
+
+      transition:0.25s ease;
+
     }
 
     .sidebar-menu a:hover{
+
       background:#1e293b;
+
       color:white;
+
       transform:translateX(4px);
+
     }
 
     .sidebar-menu a.active{
-      background:#2563eb;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #3b82f6
+        );
+
       color:white;
-      box-shadow:0 10px 20px rgba(37,99,235,0.3);
+
+      box-shadow:
+        0 12px 24px rgba(37,99,235,0.3);
+
+    }
+
+    .sidebar-menu a i{
+      font-size:18px;
+    }
+
+    .sidebar-divider{
+      margin:28px 0 20px;
+      border-top:1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-title{
+      color:#94a3b8;
+      font-size:12px;
+      font-weight:600;
+      margin-bottom:12px;
+      padding-left:8px;
+      letter-spacing:1px;
     }
 
     /* =========================
@@ -113,66 +265,190 @@
     ========================= */
 
     .main{
-      margin-left:260px;
+      width:100%;
       min-height:100vh;
       display:flex;
       flex-direction:column;
     }
 
     /* =========================
-       TOPBAR
+       TOPBAR DESKTOP
     ========================= */
 
     .topbar{
-      background:white;
-      padding:18px 28px;
+
+      position:sticky;
+      top:0;
+
+      z-index:1000;
+
       display:flex;
       justify-content:space-between;
       align-items:center;
-      box-shadow:0 5px 20px rgba(0,0,0,0.05);
-      position:sticky;
-      top:0;
-      z-index:500;
+
+      padding:18px 28px;
+
+      background:
+        rgba(255,255,255,0.88);
+
+      backdrop-filter:blur(18px);
+
+      border-bottom:
+        1px solid rgba(226,232,240,0.8);
+
+      box-shadow:
+        0 8px 30px rgba(15,23,42,0.05);
+
     }
 
-    .topbar-left h4{
+    .topbar-left{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      flex:1;
+      min-width:0;
+    }
+
+    .mobile-toggle{
+      display:none;
+    }
+
+    .welcome-box h4{
       margin:0;
+      font-size:26px;
       font-weight:700;
       color:#0f172a;
     }
 
-    .topbar-left p{
-      margin:0;
+    .welcome-box p{
+      margin:4px 0 0;
       color:#64748b;
       font-size:14px;
+    }
+
+    .welcome-badge{
+
+      display:inline-flex;
+      padding:6px 12px;
+
+      border-radius:999px;
+
+      background:#eff6ff;
+      color:#2563eb;
+
+      font-size:11px;
+      font-weight:700;
+
+      margin-bottom:8px;
+
+    }
+
+    .welcome-name{
+      font-weight:700;
+      color:#0f172a;
     }
 
     .topbar-right{
       display:flex;
       align-items:center;
-      gap:15px;
+      gap:14px;
     }
 
-    .user-box{
+    .xp-box{
+
+      background:white;
+
+      padding:12px 16px;
+
+      border-radius:20px;
+
       display:flex;
       align-items:center;
-      gap:10px;
-      background:#f1f5f9;
-      padding:8px 14px;
-      border-radius:14px;
+      gap:12px;
+
+      border:1px solid #e2e8f0;
+
     }
 
-    .avatar{
-      width:42px;
-      height:42px;
-      border-radius:50%;
-      background:#2563eb;
-      color:white;
+    .xp-icon{
+
+      width:45px;
+      height:45px;
+
+      border-radius:15px;
+
       display:flex;
       align-items:center;
       justify-content:center;
-      font-weight:700;
+
+      color:white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f59e0b,
+          #facc15
+        );
+
+    }
+
+    .xp-label{
+      font-size:11px;
+      color:#64748b;
+    }
+
+    .xp-value{
       font-size:18px;
+      font-weight:700;
+    }
+
+    .user-box{
+
+      background:white;
+
+      padding:10px 14px;
+
+      border-radius:20px;
+
+      display:flex;
+      align-items:center;
+      gap:12px;
+
+      border:1px solid #e2e8f0;
+
+    }
+
+    .avatar{
+
+      width:48px;
+      height:48px;
+
+      border-radius:16px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      color:white;
+      font-weight:700;
+
+    }
+
+    .user-name{
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .user-role{
+      font-size:11px;
+      color:#64748b;
     }
 
     /* =========================
@@ -180,50 +456,54 @@
     ========================= */
 
     .content{
+      padding:25px;
       flex:1;
-      padding:30px;
     }
 
-    /* =========================
-       FOOTER
-    ========================= */
+/* =========================
+   MOBILE SIDEBAR LINKS
+========================= */
 
-    .footer{
-  background:white;
-  border-top:1px solid #e2e8f0;
-  padding:22px 30px;
-  margin-top:auto;
+.mobile-sidebar-links{
+  display:none;
 }
 
-.footer-container{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-  flex-wrap:wrap;
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+  background:#0f172a;
+  color:white;
+  padding:40px 20px 20px;
+  margin-top:40px;
 }
 
-.footer-left h6{
-  margin:0;
-  font-weight:700;
-  color:#0f172a;
+.footer-link{
+  color:#cbd5e1;
+  transition:0.2s;
 }
 
-.footer-left p{
-  margin:4px 0 0;
-  color:#64748b;
-  font-size:14px;
+.footer-link:hover{
+  color:white;
 }
 
+/* =========================
+   MOBILE
+========================= */
 
+@media(max-width:991px){
 
+  /* REMOVE FOOTER ON MOBILE */
 
+  .footer{
+    display:none;
+  }
 
-@media(max-width:768px){
+  /* SHOW MOBILE SIDEBAR LINKS */
 
-  .footer-container{
-    flex-direction:column;
-    text-align:center;
+  .mobile-sidebar-links{
+    display:block;
   }
 
 }
@@ -232,37 +512,173 @@
        MOBILE
     ========================= */
 
-    .mobile-toggle{
-      display:none;
-      font-size:24px;
-      cursor:pointer;
-    }
-
-    @media(max-width:768px){
+    @media(max-width:991px){
 
       .sidebar{
-        left:-260px;
-        transition:0.3s;
-      }
-
-      .sidebar.show{
-        left:0;
-      }
-
-      .main{
-        margin-left:0;
-      }
-
-      .mobile-toggle{
-        display:block;
+        left:-100%;
       }
 
       .topbar{
-        padding:15px;
+
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+
+        padding:
+          max(14px, env(safe-area-inset-top))
+          14px
+          16px;
+
+        border-radius:0 0 24px 24px;
+
+      }
+
+      .main{
+        width:100%;
       }
 
       .content{
-        padding:20px;
+        padding-top:110px;
+      }
+
+      .mobile-toggle{
+
+        width:48px;
+        height:48px;
+
+        border-radius:16px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        background:
+          linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+          );
+
+        color:white;
+
+        font-size:22px;
+
+        flex-shrink:0;
+
+        box-shadow:
+          0 10px 25px rgba(37,99,235,0.25);
+
+      }
+
+      .welcome-badge{
+        display:none;
+      }
+
+      .welcome-box h4{
+        font-size:19px;
+      }
+
+      .welcome-box p{
+        font-size:12px;
+      }
+
+      .xp-box{
+        display:none;
+      }
+
+      .user-box{
+        display:none;
+      }
+
+      /* APP STYLE MOBILE USER */
+
+      .mobile-user-wrapper{
+        position:relative;
+      }
+
+      .user-avatar-btn{
+
+        width:46px;
+        height:46px;
+
+        border-radius:15px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        background:
+          linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+          );
+
+        color:white;
+
+        font-weight:700;
+        font-size:18px;
+
+        cursor:pointer;
+
+      }
+
+      .mobile-user-dropdown{
+
+        position:absolute;
+        top:60px;
+        right:0;
+
+        width:190px;
+
+        background:white;
+
+        border-radius:18px;
+
+        padding:14px;
+
+        border:1px solid #e2e8f0;
+
+        box-shadow:
+          0 18px 40px rgba(15,23,42,0.12);
+
+        display:none;
+
+      }
+
+      .mobile-user-dropdown.show{
+        display:block;
+      }
+
+      .dropdown-user-name{
+        font-size:14px;
+        font-weight:700;
+      }
+
+      .dropdown-user-role{
+        font-size:12px;
+        color:#64748b;
+        margin-top:4px;
+      }
+
+    }
+
+    /* DESKTOP HIDE */
+
+    @media(min-width:992px){
+
+      .mobile-user-wrapper{
+        display:none;
+      }
+
+      .sidebar{
+        left:0;
+        border-radius:0;
+      }
+
+      .main{
+        margin-left:290px;
       }
 
     }
@@ -273,29 +689,48 @@
 
 <body>
 
-<!-- =========================
-     SIDEBAR
-========================= -->
+<div class="app">
 
-<div class="sidebar" id="sidebar">
+  <!-- OVERLAY -->
 
-  <div class="logo">
-    🎓 EduBridge
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+  <!-- SIDEBAR -->
+
+<!-- SIDEBAR -->
+
+<aside
+  class="sidebar"
+  id="sidebar"
+>
+
+  <div class="logo-box">
+
+    <div class="logo-icon">
+      🎓
+    </div>
+
+    <div class="logo">
+      EduBridge
+    </div>
+
+    <div class="logo-subtitle">
+      Smart Learning Platform
+    </div>
+
   </div>
+
+  <!-- MAIN MENU -->
 
   <div class="sidebar-menu">
 
-    <a href="/courses" >
+    <a href="/courses" class="">
       <i class="bi bi-book-fill"></i>
       Courses
     </a>
-
-    <!--
-    <a href="/reels">
-      <i class="bi bi-play-circle-fill"></i>
-      Reels
-    </a>
-    -->
 
     <a href="/account">
       <i class="bi bi-person-circle"></i>
@@ -309,61 +744,187 @@
 
   </div>
 
-</div>
+  <!-- MOBILE ONLY EXTRA LINKS -->
 
-<!-- =========================
-     MAIN
-========================= -->
+  <div class="mobile-sidebar-links">
 
-<div class="main">
+    <div class="sidebar-divider"></div>
 
-  <!-- TOPBAR -->
+    <div class="sidebar-title">
+      INFORMATION
+    </div>
 
-  <div class="topbar">
+    <div class="sidebar-menu">
 
-    <div class="topbar-left d-flex align-items-center gap-3">
+      <a href="/page/about">
+        <i class="bi bi-info-circle-fill"></i>
+        About Us
+      </a>
 
-      <div
-        class="mobile-toggle"
-        onclick="toggleSidebar()"
-      >
-        <i class="bi bi-list"></i>
-      </div>
+      <a href="/page/privacy-policy">
+        <i class="bi bi-shield-check"></i>
+        Privacy Policy
+      </a>
 
-      <div>
-        <h4>Student Panel</h4>
+      <a href="/page/terms">
+        <i class="bi bi-file-earmark-text-fill"></i>
+        Terms
+      </a>
 
-        <p>
-          Welcome back,
-         <%= typeof user !== "undefined" && user
-? user.name
-: "Student" %>
-        </p>
-      </div>
+      <a href="/page/contact">
+        <i class="bi bi-envelope-fill"></i>
+        Contact
+      </a>
 
     </div>
 
-    <div class="topbar-right">
+  </div>
 
-      <div class="user-box">
+</aside>
 
-        <div class="avatar">
-      <%= typeof user !== "undefined" && user
-? user.name.charAt(0).toUpperCase()
-: "U" %>
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+      <!-- LEFT -->
+
+      <div class="topbar-left">
+
+        <!-- MOBILE MENU -->
+
+        <div
+          class="mobile-toggle"
+          id="menuBtn"
+        >
+          <i class="bi bi-list"></i>
         </div>
 
-        <div>
+        <!-- WELCOME -->
 
-          <div class="fw-semibold">
-          <%= typeof user !== "undefined" && user
-? user.name
-: "User" %>
+        <div class="welcome-box">
+
+          <!-- DESKTOP ONLY -->
+
+          <div class="welcome-badge">
+            🎓 EduBridge
           </div>
 
-          <small class="text-muted">
-            Student
-          </small>
+          <h4>
+            Student Panel
+          </h4>
+
+          <p>
+            Welcome back,
+            <span class="welcome-name">
+
+              <%= typeof user !== "undefined" && user
+              ? user.name
+              : "Student" %>
+
+            </span>
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+
+      <div class="topbar-right">
+
+        <!-- DESKTOP XP -->
+
+        <div class="xp-box">
+
+          <div class="xp-icon">
+            <i class="bi bi-stars"></i>
+          </div>
+
+          <div>
+
+            <div class="xp-label">
+              XP Points
+            </div>
+
+            <div class="xp-value">
+
+              <%= typeof user !== "undefined" && user
+              ? (user.xp || 0)
+              : 0 %>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- DESKTOP USER -->
+
+        <div class="user-box">
+
+          <div class="avatar">
+
+            <%= typeof user !== "undefined" && user
+            ? user.name.charAt(0).toUpperCase()
+            : "U" %>
+
+          </div>
+
+          <div>
+
+            <div class="user-name">
+
+              <%= typeof user !== "undefined" && user
+              ? user.name
+              : "User" %>
+
+            </div>
+
+            <div class="user-role">
+              Student
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- MOBILE USER -->
+
+        <div class="mobile-user-wrapper">
+
+          <div
+            class="user-avatar-btn"
+            id="userToggle"
+          >
+
+            <%= typeof user !== "undefined" && user
+            ? user.name.charAt(0).toUpperCase()
+            : "U" %>
+
+          </div>
+
+          <div
+            class="mobile-user-dropdown"
+            id="userDropdown"
+          >
+
+            <div class="dropdown-user-name">
+
+              <%= typeof user !== "undefined" && user
+              ? user.name
+              : "User" %>
+
+            </div>
+
+            <div class="dropdown-user-role">
+              Student
+            </div>
+
+          </div>
 
         </div>
 
@@ -371,258 +932,206 @@
 
     </div>
 
-  </div>
+    <!-- CONTENT -->
 
-  <!-- CONTENT -->
+    <div class="content">
 
-  <div class="content">
+      <%- body %>
 
-    <%- body %>
+    </div>
 
-  </div>
+    <!-- FOOTER -->
 
-  <!-- FOOTER -->
+    <footer class="footer">
 
-<!-- FOOTER -->
+      <div class="container">
 
-<footer
-  style="
-    background:#0f172a;
-    color:white;
-    margin-top:60px;
-    padding:40px 20px 20px;
-  "
->
+        <div class="row g-4">
 
-  <div class="container">
+          <div class="col-lg-4">
 
-    <div class="row g-4">
+            <h4 class="fw-bold mb-3">
+              🎓 EduBridge
+            </h4>
 
-      <!-- BRAND -->
-      <div class="col-lg-4">
+            <p style="color:#cbd5e1;line-height:1.8;">
 
-        <h4 class="fw-bold mb-3">
-          🎓 EduBridge
-        </h4>
+              EduBridge is a modern learning platform focused on accessible education.
 
-        <p style="color:#cbd5e1; line-height:1.8;">
+            </p>
 
-          EduBridge is a modern learning platform
-          focused on accessible, practical,
-          and student-friendly education.
+          </div>
 
-        </p>
+          <div class="col-lg-4">
 
-      </div>
+            <h5 class="fw-semibold mb-3">
+              Quick Links
+            </h5>
 
-      <!-- QUICK LINKS -->
-      <div class="col-lg-4">
+            <div class="d-flex flex-column gap-2">
 
-        <h5 class="fw-semibold mb-3">
-          Quick Links
-        </h5>
+              <a href="/page/about" class="footer-link">
+                About Us
+              </a>
 
-        <div class="d-flex flex-column gap-2">
+              <a href="/page/privacy-policy" class="footer-link">
+                Privacy Policy
+              </a>
 
-          <a
-            href="/page/about"
-            class="footer-link"
-          >
-            About Us
-          </a>
+              <a href="/page/terms" class="footer-link">
+                Terms
+              </a>
 
-          <a
-            href="/page/privacy-policy"
-            class="footer-link"
-          >
-            Privacy Policy
-          </a>
+              <a href="/page/contact" class="footer-link">
+                Contact
+              </a>
 
-          <a
-            href="/page/terms"
-            class="footer-link"
-          >
-            Terms & Conditions
-          </a>
+            </div>
 
-          <a
-            href="/page/contact"
-            class="footer-link"
-          >
-            Contact Us
-          </a>
+          </div>
+
+          <div class="col-lg-4">
+
+            <h5 class="fw-semibold mb-3">
+              Notice
+            </h5>
+
+            <p style="color:#cbd5e1;line-height:1.8;font-size:14px;">
+
+              By using EduBridge, you agree to our policies and terms.
+
+            </p>
+
+          </div>
 
         </div>
 
       </div>
 
-      <!-- LEGAL -->
-      <div class="col-lg-4">
+    </footer>
 
-        <h5 class="fw-semibold mb-3">
-          Important Notice
-        </h5>
-
-        <p
-          style="
-            color:#cbd5e1;
-            line-height:1.8;
-            font-size:14px;
-          "
-        >
-
-          By using EduBridge,
-          you agree to our
-          Privacy Policy and
-          Terms & Conditions.
-
-        </p>
-
-      </div>
-
-    </div>
-
-    <hr
-      style="
-        border-color:rgba(255,255,255,0.1);
-        margin:30px 0 20px;
-      "
-    >
-
-    <div
-      class="d-flex flex-column flex-md-row
-      justify-content-between align-items-center"
-    >
-
-      <div style="color:#94a3b8;">
-
-        © 2026 EduBridge.
-        All rights reserved.
-
-      </div>
-
-      <div
-        class="mt-3 mt-md-0"
-        style="color:#94a3b8;"
-      >
-
-        Made with ❤️ for students
-
-      </div>
-
-    </div>
-
-  </div>
-
-</footer>
+  </main>
 
 </div>
+
+<!-- SCRIPT -->
 
 <script>
 
+const sidebar =
+  document.getElementById("sidebar");
+
+const overlay =
+  document.getElementById("sidebarOverlay");
+
+const menuBtn =
+  document.getElementById("menuBtn");
+
+/* OPEN */
+
+function openSidebar(){
+
+  sidebar.classList.add("show");
+
+  overlay.classList.add("show");
+
+}
+
+/* CLOSE */
+
+function closeSidebar(){
+
+  sidebar.classList.remove("show");
+
+  overlay.classList.remove("show");
+
+}
+
+/* TOGGLE */
+
 function toggleSidebar(){
 
-  document
-    .getElementById("sidebar")
-    .classList
-    .toggle("show");
+  sidebar.classList.toggle("show");
+
+  overlay.classList.toggle("show");
+
+}
+
+/* MENU BUTTON */
+
+if(menuBtn){
+
+  menuBtn.addEventListener(
+    "click",
+    toggleSidebar
+  );
+
+}
+
+/* CLICK OUTSIDE */
+
+overlay.addEventListener(
+  "click",
+  closeSidebar
+);
+
+/* AUTO CLOSE */
+
+document
+  .querySelectorAll(".sidebar a")
+  .forEach(link => {
+
+    link.addEventListener(
+      "click",
+      () => {
+
+        if(window.innerWidth < 992){
+          closeSidebar();
+        }
+
+      }
+    );
+
+  });
+
+/* MOBILE USER DROPDOWN */
+
+const userToggle =
+  document.getElementById("userToggle");
+
+const userDropdown =
+  document.getElementById("userDropdown");
+
+if(userToggle){
+
+  userToggle.addEventListener(
+    "click",
+    () => {
+
+      userDropdown.classList.toggle("show");
+
+    }
+  );
+
+  document.addEventListener(
+    "click",
+    e => {
+
+      if(
+        !userToggle.contains(e.target) &&
+        !userDropdown.contains(e.target)
+      ){
+
+        userDropdown.classList.remove("show");
+
+      }
+
+    }
+  );
 
 }
 
 </script>
-<!-- DAILY SPIN MODAL -->
-
-<% if(typeof showSpinWheel !== "undefined" && showSpinWheel){ %>
-
-<div
-  class="modal fade show"
-  id="spinModal"
-  style="
-    display:block;
-    background:rgba(0,0,0,0.7);
-    backdrop-filter:blur(8px);
-  "
->
-
-  <div class="modal-dialog modal-dialog-centered">
-
-    <div
-      class="modal-content"
-      style="
-        background:#0f172a;
-        border:1px solid rgba(255,255,255,0.1);
-        border-radius:24px;
-        overflow:hidden;
-        color:white;
-      "
-    >
-
-      <div class="modal-body text-center p-5">
-
-        <div
-          style="
-            width:90px;
-            height:90px;
-            margin:auto;
-            border-radius:24px;
-            background:linear-gradient(135deg,#2563eb,#7c3aed);
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            font-size:42px;
-            margin-bottom:25px;
-            box-shadow:0 10px 25px rgba(37,99,235,0.4);
-          "
-        >
-          🎡
-        </div>
-
-        <h2
-          style="
-            font-weight:700;
-            margin-bottom:15px;
-          "
-        >
-          Daily Reward Available
-        </h2>
-
-        <p
-          style="
-            color:#cbd5e1;
-            line-height:1.8;
-          "
-        >
-          Spin the reward wheel and
-          unlock free XP, premium rewards,
-          bonus quizzes and more.
-        </p>
-
-        <a
-          href="/spin-wheel"
-          class="btn btn-primary w-100 mt-4"
-          style="
-            height:52px;
-            border:none;
-            border-radius:14px;
-            background:linear-gradient(135deg,#2563eb,#7c3aed);
-            font-weight:600;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-          "
-        >
-          Open Spin Wheel
-        </a>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<% } %>
 
 </body>
 </html>

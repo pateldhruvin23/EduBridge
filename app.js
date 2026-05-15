@@ -16,6 +16,32 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Session
+// app.use(
+//   session({
+
+//     store: new pgSession({
+//       conString: process.env.DATABASE_URL
+//     }),
+
+//     secret: process.env.SESSION_SECRET || "secret123",
+
+//     resave: false,
+
+//     saveUninitialized: false,
+
+//     cookie: {
+
+//       maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
+
+//       httpOnly: true,
+
+//     secure: true,
+
+//       sameSite: "lax"
+//     }
+
+//   })
+// );
 app.use(
   session({
 
@@ -31,18 +57,18 @@ app.use(
 
     cookie: {
 
-      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
+      maxAge: 1000 * 60 * 60 * 24 * 365,
 
       httpOnly: true,
 
-    secure: true,
+      // ✅ IMPORTANT FIX
+      secure: process.env.NODE_ENV === "production",
 
       sameSite: "lax"
     }
 
   })
 );
-
 // View Engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -59,7 +85,31 @@ const studentRoutes = require("./routes/student");
 app.use("/", authRoutes);
 app.use("/admin", adminRoutes);
 app.use("/", studentRoutes);
+app.use(
+  "/uploads",
+  express.static("uploads", {
 
+    setHeaders: (res, path) => {
+
+      // OPEN PDF INLINE IN IOS
+      if(path.endsWith(".pdf")){
+
+        res.setHeader(
+          "Content-Type",
+          "application/pdf"
+        );
+
+        res.setHeader(
+          "Content-Disposition",
+          "inline"
+        );
+
+      }
+
+    }
+
+  })
+);
 // Home
 app.get("/", (req, res) => {
   if (!req.session.user) return res.redirect("/login");
