@@ -1416,10 +1416,7 @@ const prevPassed = prevVideo
 <% notes.forEach(n => { %>
 
 <a
-  href="https://edu-platform-rywx.onrender.com/uploads/<%= encodeURIComponent(n.file_url) %>"
-  
-  target="_blank"
-  rel="noopener noreferrer"
+  href="/uploads/<%= encodeURIComponent(n.file_url) %>"
 
   class="d-flex align-items-center justify-content-between
   text-decoration-none text-white mb-3"
