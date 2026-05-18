@@ -1,24 +1,24 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail", // or use SMTP like Outlook / Zoho
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS // app password (NOT normal password)
-  }
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendEmail(to, subject, html) {
-  try {
-    await transporter.sendMail({
-      from: `"EduPlatform 🚀" <${process.env.EMAIL_USER}>`,
-      to,
-      subject,
-      html
-    });
-  } catch (err) {
-    console.error("Email Error:", err);
-  }
+
+  const response = await resend.emails.send({
+
+    from: "EduBridge <onboarding@resend.dev>",
+
+    to,
+
+    subject,
+
+    html
+
+  });
+
+  console.log("✅ Email sent:", response);
+
+  return response;
 }
 
 module.exports = sendEmail;
