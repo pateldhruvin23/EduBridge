@@ -1,4 +1,7 @@
 const nodemailer = require("nodemailer");
+const dns = require("dns");
+
+dns.setDefaultResultOrder("ipv4first");
 
 const transporter = nodemailer.createTransport({
 
@@ -16,9 +19,7 @@ const transporter = nodemailer.createTransport({
 
   },
 
-  tls: {
-    family: 4
-  }
+  family: 4
 
 });
 
