@@ -1,43 +1,24 @@
-const nodemailer = require("nodemailer");
-const dns = require("dns");
+const { Resend } = require("resend");
 
-dns.setDefaultResultOrder("ipv4first");
-
-const transporter = nodemailer.createTransport({
-
-  host: "smtp.gmail.com",
-
-  port: 587,
-
-  secure: false,
-
-  auth: {
-
-    user: process.env.EMAIL_USER,
-
-    pass: process.env.EMAIL_PASS
-
-  },
-
-  family: 4
-
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendEmail(to, subject, html) {
 
-  const info = await transporter.sendMail({
+  const response = await resend.emails.send({
 
-    from: `"EduBridge 🚀" <${process.env.EMAIL_USER}>`,
+    from: "EduBridge <onboarding@resend.dev>",
 
     to,
+
     subject,
+
     html
 
   });
 
-  console.log("✅ Email sent:", info.messageId);
+  console.log("✅ Email sent:", response);
 
-  return info;
+  return response;
 }
 
 module.exports = sendEmail;
