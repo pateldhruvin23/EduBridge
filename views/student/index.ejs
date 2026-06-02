@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EduBridge - Smart Education Platform</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+<style>
+
+:root{
+    --primary:#2563eb;
+    --secondary:#14b8a6;
+    --dark:#0f172a;
+    --light:#f8fafc;
+    --warning:#f59e0b;
+}
+
+body{
+    background:var(--light);
+    font-family:Inter,sans-serif;
+}
+
+.navbar{
+    background:white;
+    box-shadow:0 2px 15px rgba(0,0,0,.05);
+}
+
+.logo{
+    font-size:28px;
+    font-weight:700;
+    color:var(--primary);
+}
+
+.hero{
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+    background:
+    linear-gradient(135deg,#2563eb,#14b8a6);
+    color:white;
+}
+
+.hero h1{
+    font-size:4rem;
+    font-weight:800;
+}
+
+.hero p{
+    font-size:1.2rem;
+}
+
+.hero-image{
+    width:100%;
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    50%{
+        transform:translateY(-15px);
+    }
+}
+
+.section-title{
+    font-weight:800;
+    color:var(--dark);
+}
+
+.stat-card{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.feature-card{
+    background:white;
+    border:none;
+    border-radius:20px;
+    transition:.3s;
+    padding:25px;
+    height:100%;
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+}
+
+.feature-card:hover{
+    transform:translateY(-8px);
+}
+
+.feature-icon{
+    font-size:40px;
+    color:var(--primary);
+}
+
+.course-card{
+    border:none;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.ai-section{
+    background:#0f172a;
+    color:white;
+}
+
+.step-card{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.testimonial{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.newsletter{
+    background:linear-gradient(135deg,#2563eb,#14b8a6);
+    color:white;
+    border-radius:30px;
+    padding:50px;
+}
+
+.footer{
+    background:#0f172a;
+    color:white;
+}
+
+.footer a{
+    color:#cbd5e1;
+    text-decoration:none;
+}
+
+.footer a:hover{
+    color:white;
+}
+
+.btn-primary{
+    background:#2563eb;
+    border:none;
+}
+
+.btn-success{
+    background:#14b8a6;
+    border:none;
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- Navbar -->
+
+<nav class="navbar navbar-expand-lg sticky-top">
+<div class="container">
+
+<a class="navbar-brand logo" href="/">
+EduBridge
+</a>
+
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+
+<ul class="navbar-nav ms-auto align-items-lg-center">
+
+<li class="nav-item">
+<a class="nav-link" href="#">Courses</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#">Community</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#">Schools</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#">About</a>
+</li>
+
+<li class="nav-item ms-lg-3">
+<a href="/login" class="btn btn-primary">
+Login
+</a>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+</nav>
+
+<!-- Hero -->
+
+<section class="hero">
+
+<div class="container">
+
+<div class="row align-items-center">
+
+<div class="col-lg-6">
+
+<h1>
+Transform Education with EduBridge
+</h1>
+
+<p class="my-4">
+Learn from expert teachers, access quality courses,
+connect with peers, and use AI-powered learning tools
+to achieve your academic goals.
+</p>
+
+<div class="d-flex gap-3">
+
+<a href="/register" class="btn btn-light btn-lg">
+Get Started
+</a>
+
+<a href="/courses" class="btn btn-outline-light btn-lg">
+Explore Courses
+</a>
+
+</div>
+
+</div>
+
+<div class="col-lg-6 text-center">
+
+<img
+src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
+class="img-fluid rounded-4 shadow-lg hero-image"
+alt="Education">
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Stats -->
+
+<section class="py-5">
+
+<div class="container">
+
+<div class="row g-4">
+
+<div class="col-md-3">
+<div class="stat-card">
+<h2 class="text-primary fw-bold">50K+</h2>
+<p>Students</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="stat-card">
+<h2 class="text-primary fw-bold">5K+</h2>
+<p>Courses</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="stat-card">
+<h2 class="text-primary fw-bold">2K+</h2>
+<p>Teachers</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="stat-card">
+<h2 class="text-primary fw-bold">100+</h2>
+<p>Schools</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Features -->
+
+<section class="py-5">
+
+<div class="container">
+
+<h2 class="text-center section-title mb-5">
+Why Choose EduBridge?
+</h2>
+
+<div class="row g-4">
+
+<%
+const features = [
+['bi-book','Online Courses'],
+['bi-robot','AI Assistant'],
+['bi-mortarboard','Expert Teachers'],
+['bi-file-earmark-text','Notes & Resources'],
+['bi-building','School Integration'],
+['bi-people','Peer Learning']
+];
+%>
+
+<% features.forEach(feature=>{ %>
+
+<div class="col-md-4">
+
+<div class="feature-card text-center">
+
+<i class="bi <%= feature[0] %> feature-icon"></i>
+
+<h4 class="mt-3">
+<%= feature[1] %>
+</h4>
+
+<p>
+Experience modern education with powerful tools
+and resources.
+</p>
+
+</div>
+
+</div>
+
+<% }) %>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Courses -->
+
+<section class="py-5 bg-white">
+
+<div class="container">
+
+<h2 class="text-center section-title mb-5">
+Popular Courses
+</h2>
+
+<div class="row g-4">
+
+<%
+const courses = [
+'Web Development',
+'Artificial Intelligence',
+'IELTS Preparation',
+'Data Structures'
+];
+%>
+
+<% courses.forEach(course=>{ %>
+
+<div class="col-md-3">
+
+<div class="card course-card">
+
+<img
+src="https://picsum.photos/400/250"
+class="card-img-top">
+
+<div class="card-body">
+
+<h5>
+<%= course %>
+</h5>
+
+<p class="text-warning">
+★★★★★
+</p>
+
+<button class="btn btn-primary w-100">
+View Course
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<% }) %>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- AI -->
+
+<section class="ai-section py-5">
+
+<div class="container">
+
+<div class="row align-items-center">
+
+<div class="col-lg-6">
+
+<h2 class="fw-bold">
+Meet EduBridge AI
+</h2>
+
+<ul class="mt-4">
+
+<li>Instant doubt solving</li>
+<li>Quiz generation</li>
+<li>Course summaries</li>
+<li>Coding assistance</li>
+<li>Learning recommendations</li>
+
+</ul>
+
+<a href="#" class="btn btn-success mt-3">
+Try AI Assistant
+</a>
+
+</div>
+
+<div class="col-lg-6 text-center">
+
+<i class="bi bi-robot" style="font-size:180px;"></i>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Steps -->
+
+<section class="py-5">
+
+<div class="container">
+
+<h2 class="text-center section-title mb-5">
+How It Works
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+<div class="step-card text-center">
+<h1>1</h1>
+<h5>Create Account</h5>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="step-card text-center">
+<h1>2</h1>
+<h5>Choose Path</h5>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="step-card text-center">
+<h1>3</h1>
+<h5>Start Learning</h5>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="step-card text-center">
+<h1>4</h1>
+<h5>Track Progress</h5>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Testimonials -->
+
+<section class="py-5 bg-white">
+
+<div class="container">
+
+<h2 class="text-center section-title mb-5">
+Student Success Stories
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+<div class="testimonial">
+★★★★★
+<p class="mt-3">
+EduBridge helped me improve my grades.
+</p>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="testimonial">
+★★★★★
+<p class="mt-3">
+AI assistant saves me hours every week.
+</p>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="testimonial">
+★★★★★
+<p class="mt-3">
+Best learning platform I have ever used.
+</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Newsletter -->
+
+<section class="py-5">
+
+<div class="container">
+
+<div class="newsletter text-center">
+
+<h2>
+Stay Updated
+</h2>
+
+<p>
+Get latest courses and educational updates.
+</p>
+
+<form class="row justify-content-center">
+
+<div class="col-md-6">
+<input
+type="email"
+class="form-control form-control-lg"
+placeholder="Enter your email">
+</div>
+
+<div class="col-md-2">
+<button class="btn btn-light btn-lg w-100">
+Subscribe
+</button>
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Footer -->
+
+<footer class="footer pt-5">
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-4">
+
+<h4>EduBridge</h4>
+
+<p>
+Bridging Students, Teachers and Schools
+Through Smart Education.
+</p>
+
+</div>
+
+<div class="col-md-2">
+
+<h5>Company</h5>
+
+<a href="#">About</a><br>
+<a href="#">Contact</a><br>
+<a href="#">Careers</a>
+
+</div>
+
+<div class="col-md-3">
+
+<h5>Resources</h5>
+
+<a href="#">Courses</a><br>
+<a href="#">Notes</a><br>
+<a href="#">AI Assistant</a>
+
+</div>
+
+<div class="col-md-3">
+
+<h5>Legal</h5>
+
+<a href="#">Privacy Policy</a><br>
+<a href="#">Terms & Conditions</a>
+
+</div>
+
+</div>
+
+<hr>
+
+<div class="text-center pb-3">
+© 2026 EduBridge. All Rights Reserved.
+</div>
+
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
