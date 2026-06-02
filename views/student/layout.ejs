@@ -1,62 +1,702 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
 
-<meta charset="UTF-8">
+ <meta name="google-site-verification" content="c3yDZqD0SPEwnA2G6IhpoR-BFenjk0dXavfjPU5TUcM" />
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
-/>
+  <title>EduBridge</title>
+  <title>Student Panel</title>
+<title>EduBridge - Online Learning Platform by Dhruvin Patel</title>
 
-<meta
-  name="google-site-verification"
-  content="c3yDZqD0SPEwnA2G6IhpoR-BFenjk0dXavfjPU5TUcM"
-/>
+<meta name="description"
+content="EduBridge is an online learning platform created by Dhruvin Patel. Learn through courses, quizzes, notes, reels, rewards and skill development." />
 
-<title>
-  EduBridge - Online Learning Platform by Dhruvin Patel
-</title>
+<meta name="keywords"
+content="EduBridge, Edu Bridge, Dhruvin Patel, DS Office, Online Learning Platform, Education, Courses, Student Learning" />
 
-<meta
-  name="description"
-  content="EduBridge is an online learning platform created by Dhruvin Patel. Learn through courses, quizzes, notes, reels, rewards and skill development."
-/>
+<meta name="author"
+content="Dhruvin Patel" />
+  <meta charset="UTF-8" />
 
-<meta
-  name="keywords"
-  content="EduBridge, Edu Bridge, Dhruvin Patel, DS Office, Online Learning Platform, Education, Courses, Student Learning"
-/>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
-<meta
-  name="author"
-  content="Dhruvin Patel"
-/>
+  <!-- Bootstrap -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
 
-<meta
-  property="og:title"
-  content="EduBridge - Online Learning Platform"
-/>
+  <!-- Bootstrap Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    rel="stylesheet"
+  >
 
-<meta
-  property="og:description"
-  content="Learn through courses, quizzes, notes and rewards."
-/>
+  <!-- Google Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
-<meta
-  property="og:type"
-  content="website"
-/>
+  <style>
 
-<meta
-  property="og:url"
-  content="https://edu-bridge-ds.vercel.app"
-/>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+    }
 
-<meta
-  name="robots"
-  content="index, follow"
-/>
+    html,
+    body{
+      width:100%;
+      min-height:100%;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:'Poppins',sans-serif;
+      background:#f1f5f9;
+      color:#0f172a;
+      overflow-x:hidden;
+    }
+
+    a{
+      text-decoration:none;
+    }
+
+    /* =========================
+       APP
+    ========================= */
+
+    .app{
+      display:flex;
+      min-height:100vh;
+      width:100%;
+    }
+
+    /* =========================
+       SIDEBAR OVERLAY
+    ========================= */
+
+    .sidebar-overlay{
+
+      position:fixed;
+      inset:0;
+
+      background:rgba(15,23,42,0.55);
+
+      backdrop-filter:blur(5px);
+
+      z-index:1100;
+
+      opacity:0;
+      visibility:hidden;
+
+      transition:0.3s ease;
+
+    }
+
+    .sidebar-overlay.show{
+      opacity:1;
+      visibility:visible;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar{
+
+      position:fixed;
+      top:0;
+      left:-100%;
+
+      width:290px;
+      height:100vh;
+
+      background:
+        linear-gradient(
+          180deg,
+          #0f172a,
+          #111827
+        );
+
+      z-index:1200;
+
+      padding:
+        max(20px, env(safe-area-inset-top))
+        18px
+        25px;
+
+      overflow-y:auto;
+
+      transition:0.3s ease;
+
+      border-top-right-radius:30px;
+      border-bottom-right-radius:30px;
+
+      box-shadow:
+        0 25px 60px rgba(0,0,0,0.35);
+
+    }
+
+    .sidebar.show{
+      left:0;
+    }
+
+    /* =========================
+       LOGO
+    ========================= */
+
+    .logo-box{
+      text-align:center;
+      margin-bottom:35px;
+    } 
+
+    .logo-icon{
+
+      width:82px;
+      height:82px;
+
+      margin:auto auto 16px;
+
+      border-radius:24px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      font-size:34px;
+
+      color:white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      box-shadow:
+        0 15px 35px rgba(37,99,235,0.35);
+
+    }
+
+    .logo{
+      color:white;
+      font-size:30px;
+      font-weight:700;
+    }
+
+    .logo-subtitle{
+      color:#94a3b8;
+      font-size:13px;
+      margin-top:5px;
+    }
+
+    /* =========================
+       SIDEBAR MENU
+    ========================= */
+
+    .sidebar-menu{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .sidebar-menu a{
+
+      display:flex;
+      align-items:center;
+      gap:14px;
+
+      padding:16px 18px;
+
+      border-radius:18px;
+
+      color:#cbd5e1;
+
+      font-size:15px;
+      font-weight:500;
+
+      transition:0.25s ease;
+
+    }
+
+    .sidebar-menu a:hover{
+
+      background:#1e293b;
+
+      color:white;
+
+      transform:translateX(4px);
+
+    }
+
+    .sidebar-menu a.active{
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #3b82f6
+        );
+
+      color:white;
+
+      box-shadow:
+        0 12px 24px rgba(37,99,235,0.3);
+
+    }
+
+    .sidebar-menu a i{
+      font-size:18px;
+    }
+
+    .sidebar-divider{
+      margin:28px 0 20px;
+      border-top:1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-title{
+      color:#94a3b8;
+      font-size:12px;
+      font-weight:600;
+      margin-bottom:12px;
+      padding-left:8px;
+      letter-spacing:1px;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main{
+      width:100%;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* =========================
+       TOPBAR DESKTOP
+    ========================= */
+
+    .topbar{
+
+      position:sticky;
+      top:0;
+
+      z-index:1000;
+
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      padding:18px 28px;
+
+      background:
+        rgba(255,255,255,0.88);
+
+      backdrop-filter:blur(18px);
+
+      border-bottom:
+        1px solid rgba(226,232,240,0.8);
+
+      box-shadow:
+        0 8px 30px rgba(15,23,42,0.05);
+
+    }
+
+    .topbar-left{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      flex:1;
+      min-width:0;
+    }
+
+    .mobile-toggle{
+      display:none;
+    }
+
+    .welcome-box h4{
+      margin:0;
+      font-size:26px;
+      font-weight:700;
+      color:#0f172a;
+    }
+
+    .welcome-box p{
+      margin:4px 0 0;
+      color:#64748b;
+      font-size:14px;
+    }
+
+    .welcome-badge{
+
+      display:inline-flex;
+      padding:6px 12px;
+
+      border-radius:999px;
+
+      background:#eff6ff;
+      color:#2563eb;
+
+      font-size:11px;
+      font-weight:700;
+
+      margin-bottom:8px;
+
+    }
+
+    .welcome-name{
+      font-weight:700;
+      color:#0f172a;
+    }
+
+    .topbar-right{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .xp-box{
+
+      background:white;
+
+      padding:12px 16px;
+
+      border-radius:20px;
+
+      display:flex;
+      align-items:center;
+      gap:12px;
+
+      border:1px solid #e2e8f0;
+
+    }
+
+    .xp-icon{
+
+      width:45px;
+      height:45px;
+
+      border-radius:15px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      color:white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f59e0b,
+          #facc15
+        );
+
+    }
+
+    .xp-label{
+      font-size:11px;
+      color:#64748b;
+    }
+
+    .xp-value{
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .user-box{
+
+      background:white;
+
+      padding:10px 14px;
+
+      border-radius:20px;
+
+      display:flex;
+      align-items:center;
+      gap:12px;
+
+      border:1px solid #e2e8f0;
+
+    }
+
+    .avatar{
+
+      width:48px;
+      height:48px;
+
+      border-radius:16px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      color:white;
+      font-weight:700;
+
+    }
+
+    .user-name{
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .user-role{
+      font-size:11px;
+      color:#64748b;
+    }
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .content{
+      padding:25px;
+      flex:1;
+    }
+
+/* =========================
+   MOBILE SIDEBAR LINKS
+========================= */
+
+.mobile-sidebar-links{
+  display:none;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+  background:#0f172a;
+  color:white;
+  padding:40px 20px 20px;
+  margin-top:40px;
+}
+
+.footer-link{
+  color:#cbd5e1;
+  transition:0.2s;
+}
+
+.footer-link:hover{
+  color:white;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:991px){
+
+  /* REMOVE FOOTER ON MOBILE */
+
+  .footer{
+    display:none;
+  }
+
+  /* SHOW MOBILE SIDEBAR LINKS */
+
+  .mobile-sidebar-links{
+    display:block;
+  }
+
+}
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media(max-width:991px){
+
+      .sidebar{
+        left:-100%;
+      }
+
+      .topbar{
+
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+
+        padding:
+          max(14px, env(safe-area-inset-top))
+          14px
+          16px;
+
+        border-radius:0 0 24px 24px;
+
+      }
+
+      .main{
+        width:100%;
+      }
+
+      .content{
+        padding-top:110px;
+      }
+
+      .mobile-toggle{
+
+        width:48px;
+        height:48px;
+
+        border-radius:16px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        background:
+          linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+          );
+
+        color:white;
+
+        font-size:22px;
+
+        flex-shrink:0;
+
+        box-shadow:
+          0 10px 25px rgba(37,99,235,0.25);
+
+      }
+
+      .welcome-badge{
+        display:none;
+      }
+
+      .welcome-box h4{
+        font-size:19px;
+      }
+
+      .welcome-box p{
+        font-size:12px;
+      }
+
+      .xp-box{
+        display:none;
+      }
+
+      .user-box{
+        display:none;
+      }
+
+      /* APP STYLE MOBILE USER */
+
+      .mobile-user-wrapper{
+        position:relative;
+      }
+
+      .user-avatar-btn{
+
+        width:46px;
+        height:46px;
+
+        border-radius:15px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        background:
+          linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+          );
+
+        color:white;
+
+        font-weight:700;
+        font-size:18px;
+
+        cursor:pointer;
+
+      }
+
+      .mobile-user-dropdown{
+
+        position:absolute;
+        top:60px;
+        right:0;
+
+        width:190px;
+
+        background:white;
+
+        border-radius:18px;
+
+        padding:14px;
+
+        border:1px solid #e2e8f0;
+
+        box-shadow:
+          0 18px 40px rgba(15,23,42,0.12);
+
+        display:none;
+
+      }
+
+      .mobile-user-dropdown.show{
+        display:block;
+      }
+
+      .dropdown-user-name{
+        font-size:14px;
+        font-weight:700;
+      }
+
+      .dropdown-user-role{
+        font-size:12px;
+        color:#64748b;
+        margin-top:4px;
+      }
+
+    }
+
+    /* DESKTOP HIDE */
+
+    @media(min-width:992px){
+
+      .mobile-user-wrapper{
+        display:none;
+      }
+
+      .sidebar{
+        left:0;
+        border-radius:0;
+      }
+
+      .main{
+        margin-left:290px;
+      }
+
+    }
+
+  </style>
 
 </head>
 
