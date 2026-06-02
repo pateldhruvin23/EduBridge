@@ -21,10 +21,7 @@
     <priority>0.6</priority>
   </url>
 
-  <url>
-    <loc>https://edu-bridge-ds.vercel.app/unblock-request</loc>
-    <priority>0.5</priority>
-  </url>
+ 
 
   <url>
     <loc>https://edu-bridge-ds.vercel.app/page/terms</loc>
