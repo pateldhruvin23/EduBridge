@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://edu-bridge-ds.vercel.app/sitemap.xml
