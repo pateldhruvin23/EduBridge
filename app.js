@@ -122,13 +122,19 @@ app.use(
 );
 // Home
 app.get("/", (req, res) => {
-  if (!req.session.user) return res.redirect("/login");
 
-  if (req.session.user.role === "admin") {
-    return res.redirect("/admin/dashboard");
-  } else {
+  // User logged in
+  if (req.session.user) {
+
+    if (req.session.user.role === "admin") {
+      return res.redirect("/admin/dashboard");
+    }
+
     return res.redirect("/courses");
   }
+
+  // Visitor not logged in
+  res.render("index");
 });
 
 app.get("/about", (req,res)=>{
