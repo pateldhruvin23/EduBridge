@@ -134,7 +134,7 @@ app.get("/", (req, res) => {
   }
 
   // Visitor not logged in
-  res.render("/student/index");
+  res.render("index");
 });
 
 app.get("/about", (req,res)=>{
